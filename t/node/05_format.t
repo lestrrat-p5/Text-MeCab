@@ -8,7 +8,7 @@ BEGIN
     use_ok("Text::MeCab");
 }
 
-my $text = "となりの客は良く柿食う客だ";
+my $text = encode(Text::MeCab::ENCODING, "となりの客は良く柿食う客だ");
 
 my $mecab = Text::MeCab->new({ 
     node_format => "%m",

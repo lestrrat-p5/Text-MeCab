@@ -1,6 +1,8 @@
 #!perl
 use strict;
+use utf8;
 use Test::More qw(no_plan);
+use Encode;
 
 BEGIN
 {
@@ -8,10 +10,10 @@ BEGIN
 }
 
 my $node;
-my $data = do 't/strings.dat'; die if $@;
+my $data = encode(Text::MeCab::ENCODING, "太郎は次郎が持っている本を花子に渡した。");
 {
     my $mecab = Text::MeCab->new;
-    $node = $mecab->parse($data->{taro});
+    $node = $mecab->parse($data);
     $mecab = undef;
 }
 

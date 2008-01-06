@@ -48,7 +48,11 @@ my %INFO = (
     LIBS         => [ split(/\s+/, $result->{libs}) ],
     NAME         => 'Text::MeCab',
     OBJECT       => '$(O_FILES)',
-    PREREQ_PM    => {},
+    PREREQ_PM    => {
+        'Encode'     => 0,
+        'File::Spec' => 0,
+        'Test::More' => 0,
+    },
     VERSION_FROM => 'lib/Text/MeCab.pm',
     clean        => {
         FILES => 'lib/typemap MeCab.xs'

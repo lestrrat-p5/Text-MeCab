@@ -1,6 +1,6 @@
 #!perl
 use strict;
-use Test::More qw(no_plan);;
+use Test::More (tests => 42);
 
 BEGIN
 {
@@ -13,6 +13,8 @@ if (&Text::MeCab::MECAB_VERSION >= 0.90) {
     ok(eval { my $v = MECAB_BOS_NODE; 1 } && !$@, "MECAB_BOS_NODE ok");
     ok(eval { my $v = MECAB_EOS_NODE; 1 } && !$@, "MECAB_EOS_NODE ok");
 }
+
+can_ok("Text::MeCab", qw(new parse));
 
 # Make sure that what Text::MeCab::Node can, Text::MeCab::Node::Cloned
 # also can do.

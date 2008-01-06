@@ -1,6 +1,8 @@
 #!perl
 use strict;
+use utf8;
 use Test::More (tests => 28);
+use Encode;
 
 BEGIN
 {
@@ -8,8 +10,8 @@ BEGIN
 }
 
 my $data = {
-    taro => "太郎は次郎が持っている本を花子に渡した。",
-    sumomo => "すもももももももものうち。"
+    taro => encode(Text::MeCab::ENCODING, "太郎は次郎が持っている本を花子に渡した。"),
+    sumomo => encode(Text::MeCab::ENCODING, "すもももももももものうち。"),
 };
 
 my $mecab = Text::MeCab->new;
@@ -33,7 +35,13 @@ for(1..5) {
     isa_ok($node_B, "Text::MeCab::Node::Cloned", "Deep clone node B isa OK");
 
     if ($node_A->length != 0 || $node_B->length != 0) {
-        isnt($node_A->surface, $node_B->surface, "Contents of cloned nodes must differ");
+        isnt($node_A->surface, $node_B->surface, 
+            sprintf(
+                "Contents of cloned nodes must differ (A = %s, B = %s)",
+                $node_A->surface,
+                $node_B->surface,
+            )
+        );
     }
 
     $node_A = $node_A->next;

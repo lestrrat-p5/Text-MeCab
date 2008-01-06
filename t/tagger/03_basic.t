@@ -1,13 +1,15 @@
 #!perl
 use strict;
+use utf8;
 use Test::More qw(no_plan);
+use Encode;
 
 BEGIN
 {
     use_ok("Text::MeCab");
 }
 
-my $data = do 't/strings.dat'; die if $@;
+my $data = encode(Text::MeCab::ENCODING, "太郎は次郎が持っている本を花子に渡した。");
 
 my $mecab = Text::MeCab->new({
     all_morphs => 1
@@ -20,7 +22,7 @@ if (&Text::MeCab::MECAB_VERSION >= 0.90) {
 }
 
 for (
-    my $node = $mecab->parse($data->{taro});
+    my $node = $mecab->parse($data);
     $node;
     $node = $node->next
 ) {
@@ -36,7 +38,7 @@ $mecab = Text::MeCab->new({
 ok($mecab);
 
 for (
-    my $node = $mecab->parse($data->{taro});
+    my $node = $mecab->parse($data);
     $node;
     $node = $node->next
 ) {
