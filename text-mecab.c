@@ -107,6 +107,7 @@ TextMeCab_parse(mecab, string)
         croak("mecab_sparse_tonode() failed: %s", 
             mecab_strerror(XS_2MECAB(mecab)));
     }
+    node = node->next;
 
     return node;
 }

@@ -13,6 +13,7 @@ my $text = "となりの客は良く柿食う客だ";
 my $mecab = Text::MeCab->new({ 
     node_format => "%m",
 });
+
 for( my $node = $mecab->parse($text);
         $node;
         $node = $node->next
