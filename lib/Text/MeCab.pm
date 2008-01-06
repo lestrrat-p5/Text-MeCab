@@ -246,6 +246,32 @@ Parses the given text via mecab, and returns a Text::MeCab::Node object.
 Returns the encoding of the underlying mecab library that was detected at
 compile time.
 
+=head2 MECAB_VERSION
+
+The version number from libmecab's mecab_version()
+
+=head2 MECAB_TARGET_VERSION
+
+=head2 MECAB_TARGET_MAJOR_VERSION
+
+=head2 MECAB_TARGET_MINOR_VERSION
+
+The version number detected at compile time of Text::MeCab. 
+
+=head2 MECAB_NOR_NODE
+
+=head2 MECAB_UNK_NODE
+
+=head2 MECAB_BOS_NODE
+
+=head2 MECAB_EOS_NODE
+
+=head2 MECAB_USR_DIC
+
+=head2 MECAB_SYS_DIC
+
+=head2 MECAB_UNK_DIC
+
 =head1 SEE ALSO
 
 http://mecab.sourceforge.ne.jp

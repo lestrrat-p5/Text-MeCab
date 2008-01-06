@@ -14,11 +14,12 @@ TextMeCab_bootstrap()
     HV *stash;
     stash = gv_stashpv("Text::MeCab", 1);
 
-    newCONSTSUB(stash, "MECAB_VERSION",
+    newCONSTSUB(stash, "MECAB_VERSION", newSVpvf("%s", mecab_version()));
+    newCONSTSUB(stash, "MECAB_TARGET_VERSION", 
         newSVpvf("%d.%02d", MECAB_MAJOR_VERSION, MECAB_MINOR_VERSION) );
-    newCONSTSUB(stash, "MECAB_MAJOR_VERSION", 
+    newCONSTSUB(stash, "MECAB_TARGET_MAJOR_VERSION", 
         newSVpvf("%d", MECAB_MAJOR_VERSION));
-    newCONSTSUB(stash, "MECAB_MINOR_VERSION", 
+    newCONSTSUB(stash, "MECAB_TARGET_MINOR_VERSION", 
         newSVpvf("%d", MECAB_MINOR_VERSION));
     newCONSTSUB(stash, "ENCODING", newSVpvf("%s", TEXT_MECAB_ENCODING) );
 
