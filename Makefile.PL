@@ -50,6 +50,7 @@ my %INFO = (
     OBJECT       => '$(O_FILES)',
     PREREQ_PM    => {
         'Encode'     => 0,
+        'Exporter'   => 0,
         'File::Spec' => 0,
         'Test::More' => 0,
     },

@@ -5,7 +5,10 @@
 
 package Text::MeCab;
 use strict;
-use vars qw($VERSION @ISA %EXPORT_TAGS @EXPORT_OK);
+use warnings;
+use 5.006;
+use Exporter 'import';
+our ($VERSION, @ISA, %EXPORT_TAGS, @EXPORT_OK);
 BEGIN
 {
     $VERSION = '0.20000';
@@ -17,9 +20,6 @@ BEGIN
         @ISA = qw(DynaLoader);
         __PACKAGE__->bootstrap;
     }
-
-    require Exporter;
-    push @ISA, 'Exporter';
 
     %EXPORT_TAGS = (all => [ qw(MECAB_NOR_NODE MECAB_UNK_NODE MECAB_BOS_NODE MECAB_EOS_NODE) ]);
     @EXPORT_OK = map { @$_ } values %EXPORT_TAGS;
