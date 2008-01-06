@@ -55,7 +55,7 @@ TextMeCab_Node *
 TextMeCab_Node_prev(node)
     TextMeCab_Node *node
 
-const char *
+SV *
 TextMeCab_Node_surface(node)
     TextMeCab_Node *node;
 

@@ -43,11 +43,14 @@ TextMeCab_Node_prev(node)
     return MECAB_NODE_PREV(node);
 }
 
-const char *
+SV *
 TextMeCab_Node_surface(node)
         TextMeCab_Node *node;
 {
-    return MECAB_NODE_SURFACE(node);
+    return (node->length > 0) ?
+        newSVpvn(MECAB_NODE_SURFACE(node), MECAB_NODE_LENGTH(node)) :
+        newSVpv("", 0)
+    ;
 }
 
 const char *

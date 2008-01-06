@@ -79,7 +79,7 @@ unsigned int TextMeCab_Node_length(TextMeCab_Node *node);
 unsigned int TextMeCab_Node_rlength(TextMeCab_Node *node);
 TextMeCab_Node *TextMeCab_Node_next(TextMeCab_Node *node);
 TextMeCab_Node *TextMeCab_Node_prev(TextMeCab_Node *node);
-const char *TextMeCab_Node_surface(TextMeCab_Node *node);
+SV *TextMeCab_Node_surface(TextMeCab_Node *node);
 const char *TextMeCab_Node_feature(TextMeCab_Node *node);
 unsigned short TextMeCab_Node_rcattr(TextMeCab_Node *node);
 unsigned short TextMeCab_Node_lcattr(TextMeCab_Node *node);
