@@ -79,8 +79,8 @@ unsigned int TextMeCab_Node_length(TextMeCab_Node *node);
 unsigned int TextMeCab_Node_rlength(TextMeCab_Node *node);
 TextMeCab_Node *TextMeCab_Node_next(TextMeCab_Node *node);
 TextMeCab_Node *TextMeCab_Node_prev(TextMeCab_Node *node);
-char *TextMeCab_Node_surface(TextMeCab_Node *node);
-char *TextMeCab_Node_feature(TextMeCab_Node *node);
+const char *TextMeCab_Node_surface(TextMeCab_Node *node);
+const char *TextMeCab_Node_feature(TextMeCab_Node *node);
 unsigned short TextMeCab_Node_rcattr(TextMeCab_Node *node);
 unsigned short TextMeCab_Node_lcattr(TextMeCab_Node *node);
 unsigned short TextMeCab_Node_posid(TextMeCab_Node *node);
@@ -92,7 +92,7 @@ float TextMeCab_Node_beta(TextMeCab_Node *node);
 float TextMeCab_Node_prob(TextMeCab_Node *node);
 long TextMeCab_Node_cost(TextMeCab_Node *node);
 short TextMeCab_Node_wcost(TextMeCab_Node *node);
-char *TextMeCab_Node_format(TextMeCab_Node *node, TextMeCab *mecab);
+const char *TextMeCab_Node_format(TextMeCab_Node *node, TextMeCab *mecab);
 
 TextMeCab_Node_Cloned *TextMeCab_Node_dclone(TextMeCab_Node *node);
 TextMeCab_Node_Cloned *TextMeCab_Node_clone_single_node(TextMeCab_Node *node);
@@ -104,8 +104,8 @@ unsigned int TextMeCab_Node_Cloned_length(TextMeCab_Node_Cloned *node);
 unsigned int TextMeCab_Node_Cloned_rlength(TextMeCab_Node_Cloned *node);
 TextMeCab_Node_Cloned *TextMeCab_Node_Cloned_next(TextMeCab_Node_Cloned *node);
 TextMeCab_Node_Cloned *TextMeCab_Node_Cloned_prev(TextMeCab_Node_Cloned *node);
-char *TextMeCab_Node_Cloned_surface(TextMeCab_Node_Cloned *node);
-char *TextMeCab_Node_Cloned_feature(TextMeCab_Node_Cloned *node);
+const char *TextMeCab_Node_Cloned_surface(TextMeCab_Node_Cloned *node);
+const char *TextMeCab_Node_Cloned_feature(TextMeCab_Node_Cloned *node);
 unsigned short TextMeCab_Node_Cloned_rcattr(TextMeCab_Node_Cloned *node);
 unsigned short TextMeCab_Node_Cloned_lcattr(TextMeCab_Node_Cloned *node);
 unsigned short TextMeCab_Node_Cloned_posid(TextMeCab_Node_Cloned *node);
@@ -117,6 +117,6 @@ float TextMeCab_Node_Cloned_beta(TextMeCab_Node_Cloned *node);
 float TextMeCab_Node_Cloned_prob(TextMeCab_Node_Cloned *node);
 long TextMeCab_Node_Cloned_cost(TextMeCab_Node_Cloned *node);
 short TextMeCab_Node_Cloned_wcost(TextMeCab_Node_Cloned *node);
-char *TextMeCab_Node_Cloned_format(TextMeCab_Node_Cloned *node, TextMeCab *mecab);
+const char *TextMeCab_Node_Cloned_format(TextMeCab_Node_Cloned *node, TextMeCab *mecab);
 
 #endif /* __TEXT_MECAB_H__ */

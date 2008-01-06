@@ -55,11 +55,11 @@ TextMeCab_Node *
 TextMeCab_Node_prev(node)
     TextMeCab_Node *node
 
-char *
+const char *
 TextMeCab_Node_surface(node)
     TextMeCab_Node *node;
 
-char *
+const char *
 TextMeCab_Node_feature(node)
     TextMeCab_Node *node;
 
@@ -107,7 +107,7 @@ long
 TextMeCab_Node_cost(node)
     TextMeCab_Node *node;
 
-char *
+const char *
 TextMeCab_Node_format(node, mecab)
         TextMeCab_Node *node;
         TextMeCab      *mecab;
@@ -140,11 +140,11 @@ TextMeCab_Node_Cloned *
 TextMeCab_Node_Cloned_prev(node)
         TextMeCab_Node_Cloned *node
 
-char *
+const char *
 TextMeCab_Node_Cloned_surface(node)
         TextMeCab_Node_Cloned *node;
 
-char *
+const char *
 TextMeCab_Node_Cloned_feature(node)
         TextMeCab_Node_Cloned *node;
 
@@ -192,7 +192,7 @@ long
 TextMeCab_Node_Cloned_cost(node)
         TextMeCab_Node_Cloned *node;
 
-char *
+const char *
 TextMeCab_Node_Cloned_format(node, mecab)
         TextMeCab_Node_Cloned *node;
         TextMeCab             *mecab;

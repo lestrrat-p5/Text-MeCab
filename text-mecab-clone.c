@@ -142,14 +142,14 @@ TextMeCab_Node_Cloned_prev(node)
     return MECAB_NODE_PREV(node);
 }
 
-char *
+const char *
 TextMeCab_Node_Cloned_surface(node)
         TextMeCab_Node_Cloned *node;
 {
     return MECAB_NODE_SURFACE(node->actual);
 }
 
-char *
+const char *
 TextMeCab_Node_Cloned_feature(node)
         TextMeCab_Node_Cloned *node;
 {
@@ -233,7 +233,7 @@ TextMeCab_Node_Cloned_wcost(node)
     return MECAB_NODE_WCOST(node->actual);
 }
 
-char *
+const char *
 TextMeCab_Node_Cloned_format(node, mecab)
         TextMeCab_Node_Cloned *node;
         TextMeCab             *mecab;

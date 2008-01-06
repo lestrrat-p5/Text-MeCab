@@ -43,18 +43,18 @@ TextMeCab_Node_prev(node)
     return MECAB_NODE_PREV(node);
 }
 
-char *
+const char *
 TextMeCab_Node_surface(node)
         TextMeCab_Node *node;
 {
-    return (char *) MECAB_NODE_SURFACE(node);
+    return MECAB_NODE_SURFACE(node);
 }
 
-char *
+const char *
 TextMeCab_Node_feature(node)
         TextMeCab_Node *node;
 {
-    return (char *) MECAB_NODE_FEATURE(node);
+    return MECAB_NODE_FEATURE(node);
 }
 
 unsigned short
@@ -134,7 +134,7 @@ TextMeCab_Node_wcost(node)
     return MECAB_NODE_WCOST(node);
 }
 
-char *
+const char *
 TextMeCab_Node_format(node, mecab)
         TextMeCab_Node *node;
         TextMeCab      *mecab;
