@@ -1,6 +1,6 @@
 # $Id$
 #
-# Copyright (c) 2006 Daisuke Maki <dmaki@cpan.org>
+# Copyright (c) 2006-2008 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
 
 package Text::MeCab;
@@ -252,7 +252,7 @@ http://mecab.sourceforge.ne.jp
 
 =head1 AUTHOR
 
-(c) 2006 Daisuke Maki E<lt>dmaki@cpan.orgE<gt>
+Copyright (c) 2006-2008 Daisuke Maki E<lt>daisuke@endeworks.jpE<gt>
 All rights reserved.
 
 =cut

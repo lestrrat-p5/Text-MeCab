@@ -1,6 +1,6 @@
 /* $Id: /mirror/Text-MeCab/lib/Text/MeCab.xs 6618 2007-04-16T06:12:59.796844Z daisuke  $
  *
- * Copyright (c) 2006 Daisuke Maki <dmaki@cpan.org>
+ * Copyright (c) 2006-2008 Daisuke Maki <daisuke@endeworks.jp>
  * All rights reserved.
  */
 

@@ -1,7 +1,7 @@
 #!perl
 # $Id: /mirror/perl/Text-MeCab/trunk/tools/probe_mecab.pl 38046 2008-01-06T12:44:20.889262Z daisuke  $
 #
-# Copyright (c) 2006 Daisuke Maki <dmaki@cpan.org>
+# Copyright (c) 2006-2008 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
 
 use strict;

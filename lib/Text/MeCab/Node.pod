@@ -43,9 +43,4 @@ Given a mecab instance, formats the node as specified by the option arguments
 
 L<Text::MeCab|Text::MeCab>
 
-=head1 AUTHOR
-
-Copyright (c) 2006 Daisuke Maki E<lt>dmaki@cpan.orgE<gt>
-All rights reserved.
-
 =cut

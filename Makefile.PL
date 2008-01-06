@@ -1,11 +1,11 @@
 #!perl
 # $Id$
 #
-# Copyright (c) 2006 Daisuke Maki <dmaki@cpan.org>
+# Copyright (c) 2006-2008 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
 
 use strict;
-use ExtUtils::MakeMaker 6.25; # Avoid Build.PL bug
+use ExtUtils::MakeMaker;
 
 my $debugging = 0;
 for(my $i = 0; $i < @ARGV; $i++) {
