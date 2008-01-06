@@ -1,0 +1,38 @@
+TYPEMAP
+TextMeCab*              T_MECAB
+TextMeCab_Node*         T_MECAB_NODE
+TextMeCab_Node_Cloned * T_MECAB_NODE_CLONE
+
+INPUT
+T_MECAB
+        $var = XS_STATE(TextMeCab *, $arg);
+
+T_MECAB_NODE
+        $var = XS_STATE(TextMeCab_Node *, $arg);
+
+T_MECAB_NODE_CLONE
+        $var = XS_STATE(TextMeCab_Node_Cloned *, $arg);
+
+OUTPUT
+T_MECAB
+        if ($var == NULL) {
+            sv_setsv($arg, &PL_sv_undef);
+        } else {
+            XS_STRUCT2OBJ($arg, "Text::MeCab", $var);
+        }
+
+T_MECAB_NODE
+        if ($var == NULL) {
+            sv_setsv($arg, &PL_sv_undef);
+        } else {
+            XS_STRUCT2OBJ($arg, "Text::MeCab::Node", $var);
+        }
+
+T_MECAB_NODE_CLONE
+        if ($var == NULL) {
+            sv_setsv($arg, &PL_sv_undef);
+        } else {
+            XS_STRUCT2OBJ($arg, "Text::MeCab::Node::Cloned", $var);
+        }
+
+
