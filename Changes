@@ -1,6 +1,9 @@
 Changes
 =======
 
+0.20000 08 Jan 2008
+  - No code change. Releasing.
+
 0.20000_01 07 Jan 2008
   - Complete rewrite
     * work with libmecab 0.96

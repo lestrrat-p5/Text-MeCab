@@ -11,7 +11,7 @@ use Exporter 'import';
 our ($VERSION, @ISA, %EXPORT_TAGS, @EXPORT_OK);
 BEGIN
 {
-    $VERSION = '0.20000_01';
+    $VERSION = '0.20000';
     if ($] > 5.006) {
         require XSLoader;
         XSLoader::load(__PACKAGE__, $VERSION);
@@ -90,9 +90,6 @@ Text::MeCab - Alternate Interface To libmecab
   # use constants
   use Text::MeCab qw(:all);
   use Text::MeCab qw(MECAB_NOR_NODE);
-
-  # want to use a command line arguments?
-  my $mecab = Text::MeCab->new("--userdic=/foo/bar/baz", "-P");
 
   # check what mecab version we compiled against?
   print "Compiled with ", &Text::MeCab::MECAB_VERSION, "\n";
