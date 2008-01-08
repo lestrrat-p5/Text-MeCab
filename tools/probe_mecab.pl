@@ -6,62 +6,51 @@
 
 use strict;
 use File::Spec;
+use ExtUtils::MakeMaker;
 
-my $interactive = -t STDIN && (-t STDOUT || !(-f STDOUT || -c STDOUT)) ;
 my($version, $cflags, $libs);
 
 $cflags = '';
 
 # Save the poor puppies that run on Windows
 if ($^O eq 'MSWin32') {
-    print <<EOM;
-You seem to be running on an environment that may not have mecab-config
-available. This script uses mecab-config to auto-probe 
-  1. The version string of libmecab that you are building Text::MeCab
-     against. (e.g. 0.90)
-  2. Additional compiler flags that you may have built libmecab with, and
-  3. Additional linker flags that you may have build libmecab with.
-
-Since we can't auto-probe, you should specify the above three to proceed
-with compilation:
-EOM
-
-    print "Version of libmecab that you are compiling against (e.g. 0.90)? (REQUIRED) [] ";
-    $version = <STDIN>;
-    chomp($version);
+    $version = prompt(
+        join(
+            "\n",
+            "",
+            "You seem to be running on an environment that may not have mecab-config",
+            "available. This script uses mecab-config to auto-probe",
+            "  1. The version string of libmecab that you are building Text::MeCab",
+            "     against. (e.g. 0.90)",
+            "  2. Additional compiler flags that you may have built libmecab with, and",
+            "  3. Additional linker flags that you may have build libmecab with.",
+            "",
+            "Since we can't auto-probe, you should specify the above three to proceed",
+            "with compilation:",
+            "",
+            "Version of libmecab that you are compiling against (e.g. 0.90)? (REQUIRED) []"
+        )
+    );
+    chomp $version;
     die "no version specified! cowardly refusing to proceed." unless $version;
 
-    print "Additional compiler flags (e.g. -DWIN32 -Ic:\\path\\to\\mecab\\sdk)? [] ";
-    if ($interactive) {
-        $cflags = <STDIN>;
-        chomp($cflags);
-    }
+    $cflags = prompt("Additional compiler flags (e.g. -DWIN32 -Ic:\\path\\to\\mecab\\sdk)? []");
 
-    print "Additional linker flags (e.g. -lc:\\path\\to\\mecab\\sdk\\libmecab.lib? [] ";
-    if ($interactive) {
-        $libs = <STDIN>;
-        chomp($libs);
-    }
+    $libs = prompt("Additional linker flags (e.g. -lc:\\path\\to\\mecab\\sdk\\libmecab.lib? [] ");
 } else {
     # try probing in places where we expect it to be
     my $mecab_config;
+    my $default_config;
     foreach my $path qw(/usr/bin /usr/local/bin) {
         my $tmp = File::Spec->catfile($path, 'mecab-config');
         if (-f $tmp && -x _) {
-            $mecab_config = $tmp;
+            $default_config = $tmp;
             last;
         }
     }
-    
-    print "Path to mecab config? [$mecab_config] ";
-    if ($interactive) {
-        my $tmp = <STDIN>;
-        chomp $tmp;
-        if ($tmp) {
-            $mecab_config = $tmp;
-        }
-    }
-    
+
+    $mecab_config = prompt( "Path to mecab config?", $default_config );
+
     if (!-f $mecab_config || ! -x _) {
         print STDERR "Can't proceed without mecab-config. Aborting...\n";
         exit 1;
@@ -102,21 +91,18 @@ if ($libs) {
     print "No linker flags specified\n";
 }
 
-my $encoding = 'utf-8';
-print 
-    "Text::MeCab needs to know what encoding you built your dictionary with\n",
-    "to properly execute tests.\n",
-    "\n",
-    "Encoding of your mecab dictionary? (shift_jis, euc-jp, utf-8) [$encoding] "
-;
-
-if ($interactive) {
-    my $input = <STDIN>;
-    chomp $input;
-    if ($input) {
-        $encoding = $input;
-    }
-}
+my $default_encoding = 'utf-8';
+my $encoding = prompt(
+    join(
+        "\n",
+        "",
+        "Text::MeCab needs to know what encoding you built your dictionary with",
+        "to properly execute tests.",
+        "",
+        "Encoding of your mecab dictionary? (shift_jis, euc-jp, utf-8)",
+    ),
+    $default_encoding
+);
 
 print "Using $encoding as your dictionary encoding\n";
 
