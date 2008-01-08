@@ -1,6 +1,10 @@
 Changes
 =======
 
+0.20001 09 Jan 2008
+  - Properly use ExtUtils::MakeMaker::prompt() to ask interactive
+    questions. Pointed out by David Cantrell.
+
 0.20000 08 Jan 2008
   - No code change. Releasing.
 
