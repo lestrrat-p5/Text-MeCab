@@ -1,6 +1,10 @@
 Changes
 =======
 
+0.20002 10 Jan 2008
+  - Add Text::MeCab::Dict, which is a simple wrapper to work with 
+    mecab dictionary. Only supports ipadic.
+
 0.20001 09 Jan 2008
   - Properly use ExtUtils::MakeMaker::prompt() to ask interactive
     questions. Pointed out by David Cantrell.
