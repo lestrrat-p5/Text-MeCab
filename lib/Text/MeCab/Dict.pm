@@ -7,6 +7,7 @@ package Text::MeCab::Dict;
 use strict;
 use warnings;
 use base qw(Class::Accessor::Fast);
+use Text::MeCab;
 use Path::Class::Dir;
 use Path::Class::File;
 
@@ -17,8 +18,9 @@ __PACKAGE__->mk_accessors($_) for qw(entries config dict_source libexecdir input
 sub new
 {
     my $class = shift;
+    my %args  = @_;
 
-    my ($dict_source, $libexecdir);
+    my $libexecdir;
     my $config = $args{mecab_config} || &Text::MeCab::MECAB_CONFIG;
     my $dict_source = $args{dict_source};
     my $ie     = $args{ie} || $args{input_encoding} || &Text::MeCab::ENCODING;
@@ -39,14 +41,16 @@ sub new
         entries         => [],
         dict_source     => $dict_source,
         libexecdir      => $libexecdir,
-        input_encoding  => $input_encoding,
-        output_encoding => $output_encoding,
+        input_encoding  => $ie,
+        output_encoding => $oe,
     }, $class;
 }
 
 sub add
 {
     my $self = shift;
+
+    my $entry;
     if (scalar @_ == 1) {
         $entry = shift @_;
     } else {
@@ -89,7 +93,7 @@ sub rebuild
     my $dict_source = $self->dict_source;
     my $dict_index = $self->libexecdir->file('mecab-dict-index');
 
-    my $curdir = Path::Class::Dir->new->absolute
+    my $curdir = Path::Class::Dir->new->absolute;
     eval {
         chdir $dict_source;
 
@@ -100,7 +104,7 @@ sub rebuild
 
         foreach my $cmd (@cmds) {
             if (system(@$cmd) != 0) {
-                die "Failed to execute '@cmd'";
+                die "Failed to execute '@$cmd'";
             }
         }
     };
@@ -145,7 +149,7 @@ Text::MeCab::Dict - Utility To Work With MeCab Dictionary
   use Text::MeCab::Dict;
 
   my $dict = Text::MeCab::Dict->new();
-  $dict->add( {
+  $dict->add(
     surface      => $surface,        # 表層形
     left_id      => $left_id,        # 左文脈ID
     right_id     => $right_id,       # 右文脈ID
@@ -164,7 +168,7 @@ Text::MeCab::Dict - Utility To Work With MeCab Dictionary
     yomi         => $yomi,           # 読み
     pronounce    => $pronounce,      # 発音
     extra        => \@extras,        # ユーザー設定
-  } );
+  );
   $dict->write('foo.csv');
   $dict->build();
 
