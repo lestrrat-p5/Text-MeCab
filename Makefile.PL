@@ -66,7 +66,6 @@ my %INFO = (
         'Exporter'              => 0,
         'File::Spec'            => 0,
         'Test::More'            => 0,
-        'Text::CSV_XS'          => 0,
         'Path::Class'           => 0,
     },
     VERSION_FROM => 'lib/Text/MeCab.pm',
