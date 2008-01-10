@@ -8,9 +8,10 @@ use strict;
 use File::Spec;
 use ExtUtils::MakeMaker;
 
-my($version, $cflags, $libs);
+my($version, $cflags, $libs, $mecab_config);
 
 $cflags = '';
+$mecab_config = '';
 
 # Save the poor puppies that run on Windows
 if ($^O eq 'MSWin32') {
@@ -39,7 +40,6 @@ if ($^O eq 'MSWin32') {
     $libs = prompt("Additional linker flags (e.g. -lc:\\path\\to\\mecab\\sdk\\libmecab.lib? [] ");
 } else {
     # try probing in places where we expect it to be
-    my $mecab_config;
     my $default_config;
     foreach my $path qw(/usr/bin /usr/local/bin) {
         my $tmp = File::Spec->catfile($path, 'mecab-config');
@@ -106,4 +106,10 @@ my $encoding = prompt(
 
 print "Using $encoding as your dictionary encoding\n";
 
-return { version => $version, cflags => $cflags, libs => $libs, encoding => $encoding };
+return {
+    version  => $version,
+    cflags   => $cflags,
+    libs     => $libs,
+    encoding => $encoding,
+    config   => $mecab_config,
+};
