@@ -7,6 +7,7 @@ package Text::MeCab::Dict;
 use strict;
 use warnings;
 use base qw(Class::Accessor::Fast);
+use Text::CSV_XS;
 use Text::MeCab;
 use Path::Class::Dir;
 use Path::Class::File;
@@ -64,7 +65,7 @@ sub write
 {
     my $self = shift;
     my $file = shift;
-    my $csv  = Text::CSV_XS->new();
+    my $csv  = Text::CSV_XS->new({ binary => 1 });
 
     my @output;
     my $entries = $self->entries;
@@ -74,7 +75,8 @@ sub write
         inflect inflect_type original yomi pronounse extra
     );
     foreach my $entry (@$entries) {
-        $csv->combine( map { $entry->$_ } @columns ) or die;
+        $csv->combine( map { $entry->$_ } @columns ) or
+            die "Failed at Text::CSV_XS->combine";
         push @output, $csv->string;
     }
 
@@ -130,7 +132,8 @@ sub new
     $class->SUPER::new({ 
         left_id  => -1,
         right_id => -1,
-        cost     => 0
+        cost     => 0,
+        @_
     });
 }
 
