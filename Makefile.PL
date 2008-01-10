@@ -61,10 +61,13 @@ my %INFO = (
     OBJECT       => '$(O_FILES)',
     PREREQ_PM    => {
 #        'Devel::CheckLib' => 0,
-        'Encode'          => 0,
-        'Exporter'        => 0,
-        'File::Spec'      => 0,
-        'Test::More'      => 0,
+        'Class::Accessor::Fast' => 0,
+        'Encode'                => 0,
+        'Exporter'              => 0,
+        'File::Spec'            => 0,
+        'Test::More'            => 0,
+        'Text::CSV_XS'          => 0,
+        'Path::Class'           => 0,
     },
     VERSION_FROM => 'lib/Text/MeCab.pm',
     clean        => {
