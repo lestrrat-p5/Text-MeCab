@@ -1,6 +1,11 @@
 Changes
 =======
 
+0.20004 10 Jan 2008
+  - Text::MeCab::Dict has now been confirmed working with mecab-ipadic-20070801
+    * tweak the encoding
+    * don't use Text::CSV_XS
+
 0.20003 10 Jan 2008
   - Of course, it's always a good idea to *actually* include the new
     module. Yikes. If you downloaded 0.20002 by some odd chance, please 
