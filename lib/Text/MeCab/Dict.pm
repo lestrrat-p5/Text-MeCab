@@ -7,10 +7,10 @@ package Text::MeCab::Dict;
 use strict;
 use warnings;
 use base qw(Class::Accessor::Fast);
-use Text::CSV_XS;
-use Text::MeCab;
+use Encode;
 use Path::Class::Dir;
 use Path::Class::File;
+use Text::MeCab;
 
 our $MAKE = 'make';
 
@@ -24,7 +24,15 @@ sub new
     my $libexecdir;
     my $config = $args{mecab_config} || &Text::MeCab::MECAB_CONFIG;
     my $dict_source = $args{dict_source};
-    my $ie     = $args{ie} || $args{input_encoding} || &Text::MeCab::ENCODING;
+
+    # XXX - the way we're rebuilding the index is by combining the new
+    # words with words that are already provided by mecab-ipadic distro.
+    # So when later when we call mecab-dict-index, all of these words are
+    # compiled together.
+    # Naturally, the encoding parameter must match with the other words.
+    # As of this writing, mecab-ipadic's original dictionary is in euc-jp,
+    # and there fore that's what we shall use for default.
+    my $ie     = $args{ie} || $args{input_encoding} || 'euc-jp';
     my $oe     = $args{oe} || $args{output_encoding} || &Text::MeCab::ENCODING;
 
     if (! $config) {
@@ -68,19 +76,26 @@ sub write
 {
     my $self = shift;
     my $file = shift;
-    my $csv  = Text::CSV_XS->new({ binary => 1 });
 
     my @output;
     my $entries = $self->entries;
 
     my @columns = qw(
         surface left_id right_id cost pos category1 category2 category3 
-        inflect inflect_type original yomi pronounse extra
+        inflect inflect_type original yomi pronounse 
     );
     foreach my $entry (@$entries) {
-        $csv->combine( map { $entry->$_ } @columns ) or
-            die "Failed at Text::CSV_XS->combine";
-        push @output, $csv->string;
+        my @values = map { 
+            defined $entry->$_ ? $entry->$_ : '*'
+        } @columns;
+
+        if (my $extra = $entry->extra) {
+            push @values, @$extra;
+        }
+
+        # We don't use Text::CSV_XS, because the csv format that mecab-dict-index
+        # expects is a bit off (in terms of CSV-stricture)
+        push @output, join(",", @values);
     }
 
     $file = Path::Class::File->new($file);
@@ -89,7 +104,7 @@ sub write
     }
 
     my $fh = $file->open(">>");
-    $fh->print(join("\n", @output, ""));
+    $fh->print(encode($self->input_encoding, join("\n", @output, "")));
     $fh->close;
 
     $self->entries([]);
