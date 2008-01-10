@@ -269,6 +269,10 @@ The version number detected at compile time of Text::MeCab.
 
 =head2 MECAB_UNK_DIC
 
+=head2 MECAB_CONFIG
+
+Path to mecab-config, if available.
+
 =head1 SEE ALSO
 
 http://mecab.sourceforge.ne.jp

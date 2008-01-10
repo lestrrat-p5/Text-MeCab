@@ -30,12 +30,15 @@ sub new
     if (! $config) {
         $libexecdir = $args{libexecdir};
     } else {
-        $libexecdir = Path::Class::Dir->new(`$config --libexecdir`);
+        $libexecdir = `$config --libexecdir`;
+        chomp $libexecdir;
     }
 
     if (! $dict_source || ! $libexecdir) {
         die "You must specify dict_source and libexecdir";
     }
+    $dict_source = Path::Class::Dir->new($dict_source);
+    $libexecdir = Path::Class::Dir->new($libexecdir);
 
     my $self  = bless {
         config          => $config,
@@ -81,8 +84,12 @@ sub write
     }
 
     $file = Path::Class::File->new($file);
+    if (! $file->is_absolute) {
+        $file = $self->dict_source->file( $file );
+    }
+
     my $fh = $file->open(">>");
-    $fh->print(join("\n", @output));
+    $fh->print(join("\n", @output, ""));
     $fh->close;
 
     $self->entries([]);
@@ -106,7 +113,7 @@ sub rebuild
 
         foreach my $cmd (@cmds) {
             if (system(@$cmd) != 0) {
-                die "Failed to execute '@$cmd'";
+                die "Failed to execute '@$cmd': $!";
             }
         }
     };
@@ -151,7 +158,9 @@ Text::MeCab::Dict - Utility To Work With MeCab Dictionary
 
   use Text::MeCab::Dict;
 
-  my $dict = Text::MeCab::Dict->new();
+  my $dict = Text::MeCab::Dict->new(
+    dict_source => "/path/to/mecab-ipadic-source"
+  );
   $dict->add(
     surface      => $surface,        # 表層形
     left_id      => $left_id,        # 左文脈ID
@@ -176,6 +185,35 @@ Text::MeCab::Dict - Utility To Work With MeCab Dictionary
   $dict->build();
 
 =head1 METHODS
+
+=head2 new
+
+Creates a new instance of Text::MeCab::Dict. 
+
+The path to the source of mecab-ipadic is required:
+
+  my $dict = Text::MeCab::Dict->new(
+    dict_source => "/path/to/mecab-ipadic-source"
+  );
+
+If you are in an environment where mecab-config is NOT available, you must
+also specify libexecdir, which is where mecab-dict-index is installed:
+
+  my $dict = Text::MeCab::Dict->new(
+    dict_source => "/path/to/mecab-ipadic-source",
+    libexecdir  => "/path/to/mecab/libexec/",
+  );
+
+=head2 add
+
+Adds a new entry to be appended to the dictionary. Please see SYNOPSIS for
+arguments.
+
+=head2 write
+
+Writes out the entries that were added via add() to the specified file
+location. If the file name does not look like an absolute path, the name
+will be treated relatively from dict_source
 
 =head2 rebuild
 
