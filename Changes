@@ -1,6 +1,11 @@
 Changes
 =======
 
+0.20003 10 Jan 2008
+  - Of course, it's always a good idea to *actually* include the new
+    module. Yikes. If you downloaded 0.20002 by some odd chance, please 
+    use this release instead.
+
 0.20002 10 Jan 2008
   - Add Text::MeCab::Dict, which is a simple wrapper to work with 
     mecab dictionary. Only supports ipadic.
