@@ -41,7 +41,10 @@ $result->{cflags} .= ' -I src';
 # Hack. I don't like the layout where .xs files are on the top level.
 link("lib/Text/MeCab.xs", "MeCab.xs");
 
-my @define = ( "-DTEXT_MECAB_ENCODING='\"$result->{encoding}\"'" );
+my @define = (
+    "-DTEXT_MECAB_ENCODING='\"$result->{encoding}\"'",
+    "-DTEXT_MECAB_CONFIG='\"$result->{config}\"'",
+);
 if ($debugging) {
     push @define, "-DTEXT_MECAB_DEBUG=1";
 }
