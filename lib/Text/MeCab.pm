@@ -11,7 +11,7 @@ use Exporter 'import';
 our ($VERSION, @ISA, %EXPORT_TAGS, @EXPORT_OK);
 BEGIN
 {
-    $VERSION = '0.20004';
+    $VERSION = '0.20005';
     if ($] > 5.006) {
         require XSLoader;
         XSLoader::load(__PACKAGE__, $VERSION);
@@ -276,6 +276,13 @@ Path to mecab-config, if available.
 =head1 SEE ALSO
 
 http://mecab.sourceforge.ne.jp
+
+=head1 LICENSE
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+
+See http://www.perl.com/perl/misc/Artistic.html
 
 =head1 AUTHOR
 
