@@ -11,6 +11,7 @@
 #define NEED_newCONSTSUB
 #define NEED_newRV_noinc
 #define NEED_sv_2pv_nolen
+#define NEED_sv_2pv_flags
 #include "ppport.h"
 #include <mecab.h>
 
@@ -22,10 +23,7 @@
     INT2PTR(type, SvROK(x) ? SvIV(SvRV(x)) : SvIV(x))
 
 #define XS_STRUCT2OBJ(sv, class, obj) \
-    sv = newSViv(PTR2IV(obj));  \
-    sv = newRV_noinc(sv); \
-    sv_bless(sv, gv_stashpv(class, 1)); \
-    SvREADONLY_on(sv);
+        sv_setref_pv(sv, class, (void *) obj);
 
 typedef mecab_t      TextMeCab;
 
