@@ -1,6 +1,15 @@
 Changes
 =======
 
+0.20005 06 Mar 2008
+  - Now we use sv_setref_pv instead of sv_bless and such. This fixes
+    a major leakage that prevented Text::MeCab::Node objects from being
+    garbage collected until global destruction time. I have no other
+    explanation other than that once I switched to sv_setref_pv, everything
+    just worked.
+  
+    Upgrade from previous 0.2000x versions STRONGLY recommended.
+
 0.20004 10 Jan 2008
   - Text::MeCab::Dict has now been confirmed working with mecab-ipadic-20070801
     * tweak the encoding
