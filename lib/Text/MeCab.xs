@@ -10,6 +10,8 @@ MODULE = Text::MeCab    PACKAGE = Text::MeCab    PREFIX = TextMeCab_
 
 PROTOTYPES: DISABLE
 
+INCLUDE: const-xs.inc
+
 BOOT:
     TextMeCab_bootstrap();
 

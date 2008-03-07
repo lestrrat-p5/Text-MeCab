@@ -23,15 +23,6 @@ TextMeCab_bootstrap()
         newSVpvf("%d", MECAB_MINOR_VERSION));
     newCONSTSUB(stash, "ENCODING", newSVpvf("%s", TEXT_MECAB_ENCODING) );
 
-    newCONSTSUB(stash, "MECAB_NOR_NODE", newSViv(MECAB_NOR_NODE));
-    newCONSTSUB(stash, "MECAB_UNK_NODE", newSViv(MECAB_UNK_NODE));
-    newCONSTSUB(stash, "MECAB_BOS_NODE", newSViv(MECAB_BOS_NODE));
-    newCONSTSUB(stash, "MECAB_EOS_NODE", newSViv(MECAB_EOS_NODE));
-
-    newCONSTSUB(stash, "MECAB_USR_DIC", newSViv(MECAB_USR_DIC));
-    newCONSTSUB(stash, "MECAB_SYS_DIC", newSViv(MECAB_SYS_DIC));
-    newCONSTSUB(stash, "MECAB_UNK_DIC", newSViv(MECAB_UNK_DIC));
-
     newCONSTSUB(stash, "MECAB_CONFIG", newSVpvf("%s", TEXT_MECAB_CONFIG));
 }
 

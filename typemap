@@ -15,24 +15,12 @@ T_MECAB_NODE_CLONE
 
 OUTPUT
 T_MECAB
-        if ($var == NULL) {
-            sv_setsv($arg, &PL_sv_undef);
-        } else {
-            XS_STRUCT2OBJ($arg, "Text::MeCab", $var);
-        }
+        XS_STRUCT2OBJ($arg, "Text::MeCab", $var);
 
 T_MECAB_NODE
-        if ($var == NULL) {
-            sv_setsv($arg, &PL_sv_undef);
-        } else {
-            XS_STRUCT2OBJ($arg, "Text::MeCab::Node", $var);
-        }
+        XS_STRUCT2OBJ($arg, "Text::MeCab::Node", $var);
 
 T_MECAB_NODE_CLONE
-        if ($var == NULL) {
-            sv_setsv($arg, &PL_sv_undef);
-        } else {
-            XS_STRUCT2OBJ($arg, "Text::MeCab::Node::Cloned", $var);
-        }
+        XS_STRUCT2OBJ($arg, "Text::MeCab::Node::Cloned", $var);
 
 

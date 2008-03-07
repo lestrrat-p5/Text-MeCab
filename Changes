@@ -1,6 +1,19 @@
 Changes
 =======
 
+0.20007
+  - Now require mecab.h location. This is used to auto-generate constants.
+  - Use Devel::CheckLib on non-Win32 platforms.
+    (Various Win32 related patches by Kenichi Ishigaki)
+
+0.20006 07 Mar 2008
+  - Makefile.PL tweak for Win32. Patched by Kenichi Ishigaki
+  - We've also been reported that older libmecab doesn't work with Text::MeCab.
+    This is a known issue mainly caused by the fact that I have no access to
+    older libmecab in my dev environment. If you know of particular combo
+    (libmecab version against a particular feature) that doesn't work, please
+    send in patches and reports so we can fix them in future releases
+
 0.20005 06 Mar 2008
   - Now we use sv_setref_pv instead of sv_bless and such. This fixes
     a major leakage that prevented Text::MeCab::Node objects from being
