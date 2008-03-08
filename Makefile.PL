@@ -7,6 +7,8 @@
 use strict;
 use ExtUtils::MakeMaker;
 
+my $RUNNING_IN_HELL = $^O eq 'MSWin32';
+
 sub run_probes
 {
     my $config = do 'tools/probe_mecab.pl';
@@ -37,9 +39,7 @@ sub check_lib
 {
     my $config = shift;
 
-    # XXX - I want to include this in future releases, but I don't know if
-    # it works with Win32 properly (i.e., untested)
-    if ($^O ne 'MSWin32') {
+    if (! $RUNNING_IN_HELL) {
         local @INC = @INC;
         unshift @INC, 'inc';
         require Devel::CheckLib;
@@ -85,15 +85,23 @@ sub extract_constants
 sub define_symbols
 {
     my $config = shift;
-    my @define = (
-        "-DTEXT_MECAB_ENCODING='\"$config->{encoding}\"'",
-        "-DTEXT_MECAB_CONFIG='\"$config->{config}\"'",
-    );
+    my @define;
 
-    if ($^O eq 'MSWin32') { # save us, the Win32 puppies
+    if ($RUNNING_IN_HELL) { # save us, the Win32 puppies
+        # XXX - Note to self: 
+        #  (1) first there was the need to to protect the symbol value
+        #      from being garbled by the shell
+        #  (2) then the Redmond camp apparently decided that they don't like
+        #      my quoting.
+        #  (3) So charsbar provided this patch.
         @define = (
             qq(-DTEXT_MECAB_ENCODING=\\"$config->{encoding}\\"),
             qq(-DTEXT_MECAB_CONFIG=\\"$config->{config}\\"),
+        );
+    } else {
+        @define = (
+            "-DTEXT_MECAB_ENCODING='\"$config->{encoding}\"'",
+            "-DTEXT_MECAB_CONFIG='\"$config->{config}\"'",
         );
     }
 
@@ -110,7 +118,7 @@ sub prepare_makefile
 
     # if no inc directory is found, I'm being executed via the author.
     # I'm going to create inc, and add Devel::CheckLib there
-    if (! -d './inc' and $^O ne 'MSWin32') {
+    if (! -d './inc' and ! $RUNNING_IN_HELL) {
         mkdir('inc') or die "Could not make inc directory: $!";
         mkdir('inc/Devel') or die "Could not make inc/Devel directory: $!";
         require Devel::CheckLib;
