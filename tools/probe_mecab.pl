@@ -25,6 +25,7 @@ if ($^O eq 'MSWin32') {
             "     against. (e.g. 0.90)",
             "  2. Additional compiler flags that you may have built libmecab with, and",
             "  3. Additional linker flags that you may have build libmecab with.",
+            "  4. Location where mecab.h header file may be found",
             "",
             "Since we can't auto-probe, you should specify the above three to proceed",
             "with compilation:",
