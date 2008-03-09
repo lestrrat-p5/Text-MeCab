@@ -5,6 +5,7 @@ Changes
   - Now require mecab.h location. This is used to auto-generate constants.
   - Use Devel::CheckLib on non-Win32 platforms.
     (Various Win32 related patches by Kenichi Ishigaki)
+  - Makefile.PL tweaks
 
 0.20006 07 Mar 2008
   - Makefile.PL tweak for Win32. Patched by Kenichi Ishigaki
