@@ -34,7 +34,11 @@ if ($^O eq 'MSWin32') {
         )
     );
     chomp $version;
-    die "no version specified! cowardly refusing to proceed." unless $version;
+
+    if (! $version) {
+        print STDERR "no version specified! cowardly refusing to proceed.";
+        exit;
+    }
 
     $cflags  = prompt("Additional compiler flags (e.g. -DWIN32 -Ic:\\path\\to\\mecab\\sdk)? []");
 
@@ -55,7 +59,7 @@ if ($^O eq 'MSWin32') {
 
     if (!-f $mecab_config || ! -x _) {
         print STDERR "Can't proceed without mecab-config. Aborting...\n";
-        exit 1;
+        exit;
     }
     
     $version = `$mecab_config --version`;
