@@ -45,7 +45,7 @@ sub check_lib
         require Devel::CheckLib;
         Devel::CheckLib::check_lib_or_exit(
             lib  => 'mecab',
-            LIBS => join(' ', split(/\s+/, $config->{libs})),
+            LIBS => [ split(/\s+/, $config->{libs}) ],
         );
     }
 }
