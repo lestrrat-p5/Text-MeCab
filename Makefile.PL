@@ -45,7 +45,7 @@ sub check_lib
         require Devel::CheckLib;
         Devel::CheckLib::check_lib_or_exit(
             lib  => 'mecab',
-            LIBS => [ split(/\s+/, $config->{libs}) ],
+            LIBS => $config->{libs},
         );
     }
 }
@@ -133,7 +133,9 @@ sub prepare_makefile
     define_symbols($config);
     extract_constants($config);
 
-
+    # XXX For debug
+    # use Data::Dumper;
+    # print Dumper($config);
     my %INFO = (
         ABSTRACT     => 'Alternative Interface To libmecab',
         AUTHOR       => 'Daisuke Maki <daisuke@endeworks.jp>',
@@ -141,7 +143,7 @@ sub prepare_makefile
         DEFINE       => join( " ", @{ $config->{define} } ),
         DISTNAME     => 'Text-MeCab',
         INSTALLDIRS  => 'site',
-        LIBS         => [ split(/\s+/, $config->{libs}) ],
+        LIBS         => $config->{libs},
         LICENSE      => 'perl',
         NAME         => 'Text::MeCab',
         OBJECT       => '$(O_FILES)',
