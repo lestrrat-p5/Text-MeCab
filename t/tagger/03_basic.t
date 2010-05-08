@@ -28,7 +28,7 @@ for (
 ) {
     foreach my $field (@fields) {
         my $p = eval { $node->$field };
-        ok(!$@, "$field ok ($p)");
+        ok(!$@, "$field ok (" . (defined $p ? $p : "(null)") . ")");
     }
 }
 
@@ -44,7 +44,7 @@ for (
 ) {
     foreach my $field (@fields) {
         my $p = eval { $node->$field };
-        ok(!$@, "$field ok ($p)");
+        ok(!$@, "$field ok (" . (defined $p ? $p : "(null)") . ")");
     }
 }
 
