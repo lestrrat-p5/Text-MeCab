@@ -1,8 +1,3 @@
-# $Id$
-#
-# Copyright (c) 2006-2008 Daisuke Maki <daisuke@endeworks.jp>
-# All rights reserved.
-
 package Text::MeCab;
 use strict;
 use warnings;
@@ -11,7 +6,7 @@ use Exporter 'import';
 our ($VERSION, @ISA, %EXPORT_TAGS, @EXPORT_OK);
 BEGIN
 {
-    $VERSION = '0.20007';
+    $VERSION = '0.20007_01';
     if ($] > 5.006) {
         require XSLoader;
         XSLoader::load(__PACKAGE__, $VERSION);

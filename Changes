@@ -1,7 +1,13 @@
 Changes
 =======
 
-0.20007
+0.20007_01 09 May 2010
+  - Work with libmecab >= 0.98
+  - Reorganize file layout
+  - Switch to Module::Install
+  - Moved repository to github.com
+
+0.20007 08 Mar 2008
   - Now require mecab.h location. This is used to auto-generate constants.
   - Use Devel::CheckLib on non-Win32 platforms.
     (Various Win32 related patches by Kenichi Ishigaki)
