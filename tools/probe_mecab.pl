@@ -1,12 +1,8 @@
-#!perl
-# $Id: /mirror/perl/Text-MeCab/trunk/tools/probe_mecab.pl 38046 2008-01-06T12:44:20.889262Z daisuke  $
-#
-# Copyright (c) 2006-2008 Daisuke Maki <daisuke@endeworks.jp>
-# All rights reserved.
+#!/usr/bin/env perl
 
 use strict;
 use File::Spec;
-use ExtUtils::MakeMaker;
+use ExtUtils::MakeMaker ();
 
 my($version, $cflags, $libs, $include, $mecab_config);
 
@@ -15,7 +11,7 @@ $mecab_config = '';
 
 # Save the poor puppies that run on Windows
 if ($^O eq 'MSWin32') {
-    $version = prompt(
+    $version = ExtUtils::MakeMaker::prompt(
         join(
             "\n",
             "",
@@ -47,7 +43,7 @@ if ($^O eq 'MSWin32') {
 } else {
     # try probing in places where we expect it to be
     my $default_config;
-    foreach my $path qw(/usr/bin /usr/local/bin) {
+    foreach my $path qw(/usr/bin /usr/local/bin /opt/local/bin) {
         my $tmp = File::Spec->catfile($path, 'mecab-config');
         if (-f $tmp && -x _) {
             $default_config = $tmp;
