@@ -1,7 +1,7 @@
 #!perl
 use strict;
 use utf8;
-use Test::More (tests => 28);
+use Test::More;
 use Encode;
 
 BEGIN
@@ -16,34 +16,47 @@ my $data = {
 
 my $mecab = Text::MeCab->new;
 
-my $node_A_orig = $mecab->parse($data->{taro});
-ok($node_A_orig, "Original node A OK");
-my $node_A = $node_A_orig->dclone;
+my ($node_A, $node_B);
+{
+    my $node_A_orig = $mecab->parse($data->{taro});
+    ok($node_A_orig, "Original node A OK");
+    $node_A = $node_A_orig->dclone;
+    ok $node_A, "Clone Node A successful";
 
-my $node_B_orig = $mecab->parse($data->{sumomo});
-ok($node_B_orig, "Original node B OK");
-my $node_B = $node_B_orig->dclone;
-
-# XXX - better be at least 5 nodes after parsing (this may actually depend
-# on the dictionary that you are using, but heck, if you are crazy enough
-# to muck with the dictionary, then you know how to diagnose this test)
-
-for(1..5) {
-    ok($node_A, "Deep clone node A OK");
-    ok($node_B, "Deep clone node B OK");
-    isa_ok($node_A, "Text::MeCab::Node::Cloned", "Deep clone node A isa OK");
-    isa_ok($node_B, "Text::MeCab::Node::Cloned", "Deep clone node B isa OK");
-
-    if ($node_A->length != 0 || $node_B->length != 0) {
-        isnt($node_A->surface, $node_B->surface, 
-            sprintf(
-                "Contents of cloned nodes must differ (A = %s, B = %s)",
-                $node_A->surface,
-                $node_B->surface,
-            )
-        );
+    my $node = $node_A;
+    while ( $node_A_orig ) {
+        check_node( $node, $node_A_orig );
+        $node = $node->next;
+        $node_A_orig = $node_A_orig->next;
     }
+}
 
-    $node_A = $node_A->next;
-    $node_B = $node_B->next;
+{
+    my $node_B_orig = $mecab->parse($data->{sumomo});
+    ok($node_B_orig, "Original node B OK");
+    $node_B = $node_B_orig->dclone;
+    ok $node_B, "Clone Node B successful";
+
+    my $node = $node_B;
+    while ( $node_B_orig ) {
+        check_node( $node, $node_B_orig );
+        $node = $node->next;
+        $node_B_orig = $node_B_orig->next;
+    }
+}
+
+# finally, make sure that node_A, node_B are NOT identical
+ok $node_A;
+ok $node_B;
+isnt $node_A->surface, $node_B->surface;
+
+done_testing();
+
+sub check_node {
+    my ($clone, $orig) = @_;
+    if (ok($clone, "Deep clone node OK")) {
+        note $clone->surface;
+    }
+    isa_ok($clone, "Text::MeCab::Node::Cloned", "Deep clone node isa OK");
+    is $clone->surface, $orig->surface;
 }
