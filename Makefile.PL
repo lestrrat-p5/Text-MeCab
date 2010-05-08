@@ -28,12 +28,12 @@ cc_append_to_libs_mine $config->{libs};
 cc_define @{ $config->{define} };
 cc_src_paths 'xs';
 cc_warnings;
-author_tests 'xt';
 auto_set_repository;
 
 test_requires 'Test::More', 0.84;
 test_requires 'Test::Requires';
 tests 't/*.t t/*/*.t';
+author_tests 'xt';
 WriteAll;
 
 sub cc_append_to_libs_mine ($) {
