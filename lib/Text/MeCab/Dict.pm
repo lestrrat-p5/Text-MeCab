@@ -1,16 +1,11 @@
-# $Id$
-#
-# Copyright (c) 2008 Daisuke Maki <daisuke@endeworks.jp>
-# All rights reserved.
-
 package Text::MeCab::Dict;
 use strict;
 use warnings;
 use base qw(Class::Accessor::Fast);
 use Encode;
-use Path::Class::Dir;
-use Path::Class::File;
 use Text::MeCab;
+use File::Spec;
+use Cwd ();
 
 our $MAKE = 'make';
 
@@ -45,8 +40,6 @@ sub new
     if (! $dict_source || ! $libexecdir) {
         die "You must specify dict_source and libexecdir";
     }
-    $dict_source = Path::Class::Dir->new($dict_source);
-    $libexecdir = Path::Class::Dir->new($libexecdir);
 
     my $self  = bless {
         config          => $config,
@@ -98,12 +91,13 @@ sub write
         push @output, join(",", @values);
     }
 
-    $file = Path::Class::File->new($file);
-    if (! $file->is_absolute) {
-        $file = $self->dict_source->file( $file );
+    if (! File::Spec->file_name_is_absolute( $file->is_absolute )) {
+        $file = File::Spec->catfile( $self->dict_source, $file );
     }
 
-    my $fh = $file->open(">>");
+    my $fh;
+    open( $fh, '>>', $file ) or
+        die "Could not open file $file for append writing: $!";
     $fh->print(encode($self->input_encoding, join("\n", @output, "")));
     $fh->close;
 
@@ -117,7 +111,7 @@ sub rebuild
     my $dict_source = $self->dict_source;
     my $dict_index = $self->libexecdir->file('mecab-dict-index');
 
-    my $curdir = Path::Class::Dir->new->absolute;
+    my $curdir = Cwd::cwd();
     eval {
         chdir $dict_source;
 
