@@ -49,7 +49,7 @@ TextMeCab_Node_surface(node)
 {
     return (node->length > 0) ?
         newSVpvn(MECAB_NODE_SURFACE(node), MECAB_NODE_LENGTH(node)) :
-        newSVpv("", 0)
+        newSV(0)
     ;
 }
 
