@@ -1,13 +1,48 @@
-#!perl
-# $Id$
-#
-# Copyright (c) 2006-2008 Daisuke Maki <daisuke@endeworks.jp>
-# All rights reserved.
+use inc::Module::Install;
+sub cc_append_to_libs_mine ($);
 
-use strict;
-use ExtUtils::MakeMaker;
 
 my $RUNNING_IN_HELL = $^O eq 'MSWin32';
+
+name 'Text-MeCab';
+all_from 'lib/Text/MeCab.pm';
+
+if (! cc_available()) {
+    warn "no compiler available";
+    exit 1;
+}
+
+my $config = run_probes();
+check_lib($config);
+define_symbols($config);
+extract_constants($config);
+
+requires 'Class::Accessor::Fast';
+requires 'Encode';
+requires 'Exporter';
+requires 'File::Spec';
+use_ppport;
+cc_append_to_ccflags $config->{cflags};
+cc_append_to_inc $config->{include};
+cc_append_to_libs_mine $config->{libs};
+cc_define @{ $config->{define} };
+cc_src_paths 'xs';
+cc_warnings;
+author_tests 'xt';
+
+test_requires 'Test::More', 0.84;
+test_requires 'Test::Requires';
+tests 't/*.t t/*/*.t';
+WriteAll;
+
+sub cc_append_to_libs_mine ($) {
+    my $ma = makemaker_args;
+    if ($ma->{LIBS}) {
+        $ma->{LIBS} .= " $_[0]";
+    } else {
+        $ma->{LIBS} = $_[0];
+    }
+}
 
 sub run_probes
 {
@@ -62,10 +97,12 @@ sub extract_constants
     while (<$fh>) {
         if (/^#define\s+([\w_]+)\s+([\w_+])\s*$/) {
             $CONSTANTS{$1} = $2;
+        } elsif (/^#define\s+([\w_]+)\s+\(([\w_+])\)\s*$/) {
+            $CONSTANTS{$1} = $2;
         }
     }
 
-    open my $const_fh, '>', "const-xs.inc" or die "Can't open const-xs.inc for writing: $!";
+    open my $const_fh, '>', "xs/const-xs.inc" or die "Can't open xs/const-xs.inc for writing: $!";
     print $const_fh
         join("\n",
             "IV",
@@ -111,61 +148,63 @@ sub define_symbols
     $config->{define} = \@define;
 }
 
-sub prepare_makefile
-{
-    # Hack. I don't like the layout where .xs files are on the top level.
-    link("lib/Text/MeCab.xs", "MeCab.xs");
+## Legacy code.
+##
+## When the time comes, this will be deleted
+## sub prepare_makefile
+## {
+##     # Hack. I don't like the layout where .xs files are on the top level.
+##     link("lib/Text/MeCab.xs", "MeCab.xs");
+## 
+##     # if no inc directory is found, I'm being executed via the author.
+##     # I'm going to create inc, and add Devel::CheckLib there
+##     if (! -d './inc' and ! $RUNNING_IN_HELL) {
+##         mkdir('inc') or die "Could not make inc directory: $!";
+##         mkdir('inc/Devel') or die "Could not make inc/Devel directory: $!";
+##         require Devel::CheckLib;
+## 
+##         link($INC{'Devel/CheckLib.pm'}, 'inc/Devel/CheckLib.pm') or
+##             die "Failed to copy Devel::CheckLib: $!";
+##     }
+## 
+## 
+##     my $config = run_probes();
+##     check_lib($config);
+##     define_symbols($config);
+##     extract_constants($config);
+## 
+##     # XXX For debug
+##     # use Data::Dumper;
+##     # print Dumper($config);
+##     my %INFO = (
+##         ABSTRACT     => 'Alternative Interface To libmecab',
+##         AUTHOR       => 'Daisuke Maki <daisuke@endeworks.jp>',
+##         CCFLAGS      => $config->{cflags},
+##         DEFINE       => join( " ", @{ $config->{define} } ),
+##         DISTNAME     => 'Text-MeCab',
+##         INSTALLDIRS  => 'site',
+##         LIBS         => $config->{libs},
+##         LICENSE      => 'perl',
+##         NAME         => 'Text::MeCab',
+##         OBJECT       => '$(O_FILES)',
+##         PREREQ_PM    => {
+##             'Class::Accessor::Fast' => 0,
+##             'Encode'                => 0,
+##             'Exporter'              => 0,
+##             'File::Spec'            => 0,
+##             'Test::More'            => 0,
+##             'Path::Class'           => 0,
+##         },
+##         VERSION_FROM => 'lib/Text/MeCab.pm',
+##         clean        => {
+##             FILES => 'lib/typemap MeCab.xs'
+##         },
+##         test         => {
+##             TESTS    => 't/*.t t/*/*.t'
+##         }
+##     );
+##     $INFO{OPTIMIZE} = '-g' if $config->{debugging};
+## 
+##     WriteMakefile(%INFO);
+## }
 
-    # if no inc directory is found, I'm being executed via the author.
-    # I'm going to create inc, and add Devel::CheckLib there
-    if (! -d './inc' and ! $RUNNING_IN_HELL) {
-        mkdir('inc') or die "Could not make inc directory: $!";
-        mkdir('inc/Devel') or die "Could not make inc/Devel directory: $!";
-        require Devel::CheckLib;
-
-        link($INC{'Devel/CheckLib.pm'}, 'inc/Devel/CheckLib.pm') or
-            die "Failed to copy Devel::CheckLib: $!";
-    }
-
-
-    my $config = run_probes();
-    check_lib($config);
-    define_symbols($config);
-    extract_constants($config);
-
-    # XXX For debug
-    # use Data::Dumper;
-    # print Dumper($config);
-    my %INFO = (
-        ABSTRACT     => 'Alternative Interface To libmecab',
-        AUTHOR       => 'Daisuke Maki <daisuke@endeworks.jp>',
-        CCFLAGS      => $config->{cflags},
-        DEFINE       => join( " ", @{ $config->{define} } ),
-        DISTNAME     => 'Text-MeCab',
-        INSTALLDIRS  => 'site',
-        LIBS         => $config->{libs},
-        LICENSE      => 'perl',
-        NAME         => 'Text::MeCab',
-        OBJECT       => '$(O_FILES)',
-        PREREQ_PM    => {
-            'Class::Accessor::Fast' => 0,
-            'Encode'                => 0,
-            'Exporter'              => 0,
-            'File::Spec'            => 0,
-            'Test::More'            => 0,
-            'Path::Class'           => 0,
-        },
-        VERSION_FROM => 'lib/Text/MeCab.pm',
-        clean        => {
-            FILES => 'lib/typemap MeCab.xs'
-        },
-        test         => {
-            TESTS    => 't/*.t t/*/*.t'
-        }
-    );
-    $INFO{OPTIMIZE} = '-g' if $config->{debugging};
-
-    WriteMakefile(%INFO);
-}
-
-prepare_makefile();
