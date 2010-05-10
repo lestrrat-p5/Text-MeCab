@@ -7,11 +7,6 @@ my $RUNNING_IN_HELL = $^O eq 'MSWin32';
 name 'Text-MeCab';
 all_from 'lib/Text/MeCab.pm';
 
-if (! cc_available()) {
-    warn "no compiler available";
-    exit 1;
-}
-
 my $config = run_probes();
 check_lib($config);
 define_symbols($config);
