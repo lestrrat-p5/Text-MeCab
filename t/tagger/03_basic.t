@@ -28,7 +28,8 @@ for (
 ) {
     foreach my $field (@fields) {
         my $p = eval { $node->$field };
-        ok(!$@, "$field ok (" . (defined $p ? $p : "(null)") . ")");
+        ok(!$@, "$field ok (" . (defined $p ? 
+            encode_utf8(decode(Text::MeCab::ENCODING, $p)) : "(null)") . ")");
     }
 }
 
@@ -44,7 +45,8 @@ for (
 ) {
     foreach my $field (@fields) {
         my $p = eval { $node->$field };
-        ok(!$@, "$field ok (" . (defined $p ? $p : "(null)") . ")");
+        ok(!$@, "$field encoded ok (" . (defined $p ? 
+            encode_utf8(decode(Text::MeCab::ENCODING, $p)) : "(null)") . ")");
     }
 }
 
