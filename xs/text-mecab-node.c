@@ -142,7 +142,11 @@ TextMeCab_Node_format(node, mecab)
         TextMeCab_Node *node;
         TextMeCab      *mecab;
 {
-    return mecab_format_node(mecab, node);
+    const char *format;
+    format = mecab_format_node(XS_2MECAB(mecab), node);
+    assert(format != NULL);
+warn("format = %s\n", format);
+    return format;
 }
 
 TextMeCab_Node_Cloned *

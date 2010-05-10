@@ -45,7 +45,7 @@ sub new
         }
     }
 
-    $class->_XS_new(\@args);
+    $class->_xs_create(\@args);
 }
 
 1;

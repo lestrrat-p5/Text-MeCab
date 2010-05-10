@@ -1,10 +1,70 @@
-/* $Id: /mirror/Text-MeCab/lib/Text/MeCab.xs 6618 2007-04-16T06:12:59.796844Z daisuke  $
- *
- * Copyright (c) 2006-2008 Daisuke Maki <daisuke@endeworks.jp>
- * All rights reserved.
- */
-
 #include "text-mecab.h"
+
+static int
+TextMeCab_mg_free(pTHX_ SV *const sv, MAGIC* const mg)
+{
+    TextMeCab* const mecab = (TextMeCab*) mg->mg_ptr;
+
+    PERL_UNUSED_VAR(sv);
+    mecab_destroy(XS_2MECAB(mecab));
+    if (mecab->argc > 0) {
+        unsigned int i;
+        for ( i = 0; i < mecab->argc; i++) {
+            Safefree(mecab->argv[i]);
+        }
+        Safefree(mecab->argv);
+    }
+    return 0;
+}
+
+static int
+TextMeCab_mg_dup(pTHX_ MAGIC *const mg, CLONE_PARAMS *const param)
+{
+#ifdef USE_ITHREADS
+    TextMeCab* const mecab = (TextMeCab*) mg->mg_ptr;
+    TextMeCab* newmecab;
+
+    PERL_UNUSED_VAR(param);
+
+    newmecab = TextMeCab_create(mecab->argv, mecab->argc);
+    mg->mg_ptr = (char *) newmecab;
+#else
+    PERL_UNUSED_VAR(mg);
+    PERL_UNUSED_VAR(param);
+#endif
+    return 0;
+}
+
+static MAGIC*
+TextMeCab_mg_find(pTHX_ SV* const sv, const MGVTBL* const vtbl){
+    MAGIC* mg;
+
+    assert(sv   != NULL);
+    assert(vtbl != NULL);
+
+    for(mg = SvMAGIC(sv); mg; mg = mg->mg_moremagic){
+        if(mg->mg_virtual == vtbl){
+            assert(mg->mg_type == PERL_MAGIC_ext);
+            return mg;
+        }
+    }
+
+    croak("PerlMeCab: Invalid PerlMeCab object was passed");
+    return NULL; /* not reached */
+}
+
+static MGVTBL TextMeCab_vtbl = { /* for identity */
+    NULL, /* get */
+    NULL, /* set */
+    NULL, /* len */
+    NULL, /* clear */
+    TextMeCab_mg_free, /* free */
+    NULL, /* copy */
+    TextMeCab_mg_dup, /* dup */
+    NULL,  /* local */
+};
+
+
 
 MODULE = Text::MeCab    PACKAGE = Text::MeCab    PREFIX = TextMeCab_
 
@@ -16,11 +76,11 @@ BOOT:
     TextMeCab_bootstrap();
 
 TextMeCab *
-TextMeCab__XS_new(class, args = NULL)
-        char *class;
-        AV   *args;
+TextMeCab__xs_create(class_sv, args = NULL)
+        SV *class_sv;
+        AV *args;
     CODE:
-        RETVAL = TextMeCab_new_from_av(class, args);
+        RETVAL = TextMeCab_create_from_av(args);
     OUTPUT:
         RETVAL
 
@@ -28,10 +88,6 @@ TextMeCab_Node *
 TextMeCab_parse(mecab, string)
         TextMeCab *mecab;
         char *string;
-
-void
-TextMeCab_DESTROY(mecab)
-        TextMeCab *mecab;
 
 MODULE = Text::MeCab    PACKAGE = Text::MeCab::Node    PREFIX = TextMeCab_Node_
 

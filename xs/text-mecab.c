@@ -27,12 +27,8 @@ TextMeCab_bootstrap()
 }
 
 TextMeCab *
-TextMeCab_new(class, argv, argc)
-        char *class;
-        char **argv;
-        unsigned int argc; 
+TextMeCab_create(char **argv, unsigned int argc)
 {
-    SV *sv;
     TextMeCab *mecab;
 #if TEXT_MECAB_DEBUG
     {
@@ -44,14 +40,23 @@ TextMeCab_new(class, argv, argc)
         }
     }
 #endif
-    mecab = mecab_new(argc, argv);
+    Newxz( mecab, 1, TextMeCab );
+    mecab->mecab = mecab_new(argc, argv);
+    mecab->argc  = argc;
+    if (argc > 0) {
+        unsigned int i;
+        Newxz( mecab->argv, argc, char *);
+        for (i = 0; i < argc; i++) {
+            int len = strlen(argv[i]) + 1;
+            Newxz( mecab->argv[i], len, char );
+            Copy( argv[i], mecab->argv[i], len, char );
+        }
+    }
     return mecab;
 }
 
 TextMeCab *
-TextMeCab_new_from_av(class, av)
-        char *class;
-        AV   *av;
+TextMeCab_create_from_av(AV *av)
 {
     char **argv;
     unsigned int argc;
@@ -60,7 +65,7 @@ TextMeCab_new_from_av(class, av)
     argc = av_len(av) + 1;
 
     if (argc > 0) {
-        int i;
+        unsigned int i;
         SV **svr;
 
         Newz(1234, argv, argc, char *);
@@ -74,7 +79,7 @@ TextMeCab_new_from_av(class, av)
             argv[i] = SvPV_nolen(*svr);
         }
     }
-    mecab = TextMeCab_new(class, argv, argc);
+    mecab = TextMeCab_create(argv, argc);
     if( mecab == NULL ) {
         if (argc > 0) {
             Safefree(argv);
@@ -104,13 +109,6 @@ TextMeCab_parse(mecab, string)
     node = node->next;
 
     return node;
-}
-
-void
-TextMeCab_DESTROY(mecab)
-        TextMeCab *mecab;
-{
-    mecab_destroy(mecab);
 }
 
 #endif /* __TEXT_MECAB_C__ */

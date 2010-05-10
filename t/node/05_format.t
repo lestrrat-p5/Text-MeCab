@@ -1,7 +1,7 @@
 
 use strict;
 use Test::More qw(no_plan);
-use Encode;
+use Encode qw(encode from_to);
 
 BEGIN
 {
@@ -22,20 +22,25 @@ for( my $node = $mecab->parse($text);
 
     my $format = $node->format($mecab);
     my $feature = $node->feature;
-    ok($format, "format returns '$format'");
-    unlike($format, qr/,/, "'$format' doesn't contain any comma");
-    like($feature, qr/,/, "'$feature' does contain commas");
+    if (ok($format, "format returns " . (defined $format ? $format : '(null)') . "'")) {
+        unlike($format, qr/,/, "'$format' doesn't contain any comma");
+        like($feature, qr/,/, "'$feature' does contain commas");
+    }
 }
 
 for( my $node = $mecab->parse($text)->dclone;
         $node;
         $node = $node->next
 ) {
-    next unless $node->surface;
+    my $surface = $node->surface;
+    from_to( $surface, Text::MeCab::ENCODING, 'utf-8');
+    next unless $surface;
+    
 
     my $format = $node->format($mecab);
     my $feature = $node->feature;
-    ok($format, "format returns '$format'");
-    unlike($format, qr/,/, "'$format' doesn't contain any comma");
-    like($feature, qr/,/, "'$feature' does contain commas");
+    if (ok($format, "format returns '" . (defined $format ? $format : '(null)') . "' for surface '$surface'") ) {
+        unlike($format, qr/,/, "'$format' doesn't contain any comma");
+        like($feature, qr/,/, "'$feature' does contain commas");
+    }
 }

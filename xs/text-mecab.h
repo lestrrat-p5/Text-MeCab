@@ -1,8 +1,3 @@
-/* $Id$
- *
- * Copyright (c) 2006-2008 Daisuke Maki <daisuke@endeworks.jp>
- * All rights reserved.
- */
 #ifndef __TEXT_MECAB_H__
 #define __TEXT_MECAB_H__
 #include "EXTERN.h"
@@ -29,7 +24,11 @@
         sv_setref_pv(sv, class, (void *) obj); \
     }
 
-typedef mecab_t      TextMeCab;
+typedef struct {
+    mecab_t *mecab;
+    char **argv;
+    unsigned int argc;
+} TextMeCab;
 
 typedef mecab_node_t TextMeCab_Node;
 
@@ -45,11 +44,9 @@ typedef struct TextMeCab_Node_Cloned {
            TextMeCab_Node             *actual;
 } TextMeCab_Node_Cloned;
 
+#define XS_2MECAB(x) x->mecab
 
-
-#define XS_2MECAB(x) x
-
-#define MECAB_NODE_ID(x) x ? x->id : -1
+#define MECAB_NODE_ID(x) x ? x->id : 0 
 #define MECAB_NODE_LENGTH(x) x ? x->length : -1
 #define MECAB_NODE_RLENGTH(x) x ? x->rlength : -1
 #define MECAB_NODE_NEXT(x) x ? x->next : NULL
@@ -70,10 +67,9 @@ typedef struct TextMeCab_Node_Cloned {
 
 /* Text::MeCab */
 void TextMeCab_bootstrap();
-TextMeCab *TextMeCab_new(char *class, char **argv, unsigned int argc);
-TextMeCab *TextMeCab_new_from_av(char *class, AV *av);
+TextMeCab *TextMeCab_create(char **argv, unsigned int argc);
+TextMeCab *TextMeCab_create_from_av(AV *av);
 TextMeCab_Node *TextMeCab_parse(TextMeCab *mecab, char *string);
-void TextMeCab_DESTROY(TextMeCab *mecab);
 
 /* Text::MeCab::Node */
 unsigned int TextMeCab_Node_id(TextMeCab_Node *node);

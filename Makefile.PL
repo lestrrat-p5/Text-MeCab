@@ -24,7 +24,7 @@ requires 'File::Spec';
 use_ppport;
 cc_append_to_ccflags $config->{cflags};
 cc_append_to_inc $config->{include};
-cc_append_to_libs_mine $config->{libs};
+cc_libs $config->{libs};
 cc_define @{ $config->{define} };
 cc_src_paths 'xs';
 cc_warnings;

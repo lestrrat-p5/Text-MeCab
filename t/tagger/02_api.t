@@ -6,4 +6,4 @@ BEGIN
     use_ok("Text::MeCab");
 }
 
-can_ok("Text::MeCab", qw(new parse DESTROY));
+can_ok("Text::MeCab", qw(new parse));
