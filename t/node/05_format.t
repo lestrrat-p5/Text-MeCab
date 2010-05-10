@@ -1,5 +1,5 @@
-
 use strict;
+use utf8;
 use Test::More qw(no_plan);
 use Encode qw(encode from_to);
 
@@ -18,7 +18,9 @@ for( my $node = $mecab->parse($text);
         $node;
         $node = $node->next
 ) {
-    next unless $node->surface;
+    my $surface = $node->surface;
+    from_to( $surface, Text::MeCab::ENCODING, 'utf-8');
+    next unless $surface;
 
     my $format = $node->format($mecab);
     my $feature = $node->feature;
