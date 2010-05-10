@@ -238,7 +238,7 @@ TextMeCab_Node_Cloned_format(node, mecab)
         TextMeCab_Node_Cloned *node;
         TextMeCab             *mecab;
 {
-    return mecab_format_node(mecab, node->actual);
+    return mecab_format_node(XS_2MECAB(mecab), node->actual);
 }
 
 #endif /* __TEXT_MECAB_CLONE_C__ */
