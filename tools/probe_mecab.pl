@@ -95,7 +95,7 @@ if ($libs) {
     print "No linker flags specified\n";
 }
 
-my $default_encoding = 'utf-8';
+my $default_encoding = 'euc-jp';
 my $encoding = prompt(
     join(
         "\n",
