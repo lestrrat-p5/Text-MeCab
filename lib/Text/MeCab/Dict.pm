@@ -91,7 +91,7 @@ sub write
         push @output, join(",", @values);
     }
 
-    if (! File::Spec->file_name_is_absolute( $file->is_absolute )) {
+    if (! File::Spec->file_name_is_absolute( $file )) {
         $file = File::Spec->catfile( $self->dict_source, $file );
     }
 
@@ -109,7 +109,7 @@ sub rebuild
     my $self = shift;
 
     my $dict_source = $self->dict_source;
-    my $dict_index = $self->libexecdir->file('mecab-dict-index');
+    my $dict_index = File::Spec->catfile($self->libexecdir, 'mecab-dict-index');
 
     my $curdir = Cwd::cwd();
     eval {
