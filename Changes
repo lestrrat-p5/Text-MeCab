@@ -1,6 +1,14 @@
 Changes
 =======
 
+0.20008 10 May 2010
+  - Fixes to work with threaded perl
+  - Add tests for memleak and threads
+  - Since mecab installed via ports and the like tend to come with
+    euc-jp dictionary, change the default encoding in probe_mecab.pl
+
+  Upgrade is strongly recommended if you use threaded perl
+
 0.20007_01 09 May 2010
   - Work with libmecab >= 0.98
   - Reorganize file layout
