@@ -30,7 +30,7 @@ T_MECAB
             const char *classname = \"Text::MeCab\";
             /* take (sub)class name to use from class_sv if appropriate */
             if (class_sv && SvOK(class_sv) && sv_derived_from(class_sv, classname))
-                classname = (SvROK(class_sv)) ? sv_reftype(class_sv, 0) : SvPV_nolen(class_sv);
+                classname = (SvROK(class_sv)) ? HvNAME(SvSTASH(class_sv)) : SvPV_nolen(class_sv);
             sv_setsv($arg, sv_2mortal(newRV_noinc((SV*)hv)));
             (void)sv_bless($arg, gv_stashpv(classname, TRUE));
 
