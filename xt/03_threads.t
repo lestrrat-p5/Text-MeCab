@@ -2,7 +2,7 @@ use strict;
 use utf8;
 use Test::More;
 use Encode;
-use threads;
+use Test::Requires 'threads';
 use_ok "Text::MeCab";
 
 my $x = Text::MeCab->new; 
