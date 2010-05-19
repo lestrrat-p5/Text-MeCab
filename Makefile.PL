@@ -4,13 +4,13 @@ sub cc_append_to_libs_mine ($);
 
 my $RUNNING_IN_HELL = $^O eq 'MSWin32';
 
-name 'Text-MeCab';
-all_from 'lib/Text/MeCab.pm';
-
 my $config = run_probes();
 check_lib($config);
 define_symbols($config);
 extract_constants($config);
+
+name 'Text-MeCab';
+all_from 'lib/Text/MeCab.pm';
 
 requires 'Class::Accessor::Fast';
 requires 'Encode';
@@ -113,6 +113,21 @@ sub extract_constants
     ;
     close($const_fh);
     close($fh);
+
+    # XXX This should probably be refactored elsewhere
+    if (open(my $tmpl, '<', "MeCab.src")) {
+        my $pm;
+        if (! open($pm, '>', File::Spec->catfile('lib', 'Text', 'MeCab.pm'))) {
+            die "Could not open pm file: $!";
+        }
+        while ( <$tmpl> ) {
+            s/__TEXT_MECAB_CONSTANTS__/join(' ', sort keys %CONSTANTS)/gex;
+            s/__TEXT_MECAB_CONSTANTS_POD__/join("\n\n", map { "=head2 $_" } sort keys %CONSTANTS)/gex;
+            print $pm $_;
+        }
+        close $tmpl;
+        close $pm;
+    }
 }
 
 sub define_symbols
