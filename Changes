@@ -1,6 +1,10 @@
 Changes
 =======
 
+0.20009 19 May 2010
+  - Make sure to expose all the constants proved by Makefile.PL
+  - Fix author tests
+
 0.20008 10 May 2010
   - Fixes to work with threaded perl
   - Add tests for memleak and threads
