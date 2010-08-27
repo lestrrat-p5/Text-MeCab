@@ -75,7 +75,7 @@ sub write
 
     my @columns = qw(
         surface left_id right_id cost pos category1 category2 category3 
-        inflect inflect_type original yomi pronounse 
+        inflect inflect_type original yomi pronounce 
     );
     foreach my $entry (@$entries) {
         my @values = map { 
@@ -139,7 +139,7 @@ use base qw(Class::Accessor::Fast);
 
 __PACKAGE__->mk_accessors($_) for qw(
     surface left_id right_id cost pos category1 category2 category3 
-    inflect inflect_type original yomi pronounse extra
+    inflect inflect_type original yomi pronounce extra
 );
 
 sub new
