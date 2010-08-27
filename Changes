@@ -1,6 +1,10 @@
 Changes
 =======
 
+0.20010 28 Aug 2010
+  - Remove left over Path::Class(::File) (nipotan)
+  - Fix typo (nipotan)
+
 0.20009 19 May 2010
   - Make sure to expose all the constants proved by Makefile.PL
   - Fix author tests
