@@ -98,8 +98,8 @@ sub write
     my $fh;
     open( $fh, '>>', $file ) or
         die "Could not open file $file for append writing: $!";
-    $fh->print(encode($self->input_encoding, join("\n", @output, "")));
-    $fh->close;
+    print $fh encode($self->input_encoding, join("\n", @output, ""));
+    close $fh;
 
     $self->entries([]);
 }
