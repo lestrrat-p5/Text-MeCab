@@ -191,7 +191,7 @@ Text::MeCab::Dict - Utility To Work With MeCab Dictionary
     extra        => \@extras,        # ユーザー設定
   );
   $dict->write('foo.csv');
-  $dict->build();
+  $dict->rebuild();
 
 =head1 METHODS
 
