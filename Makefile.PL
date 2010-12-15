@@ -16,6 +16,7 @@ requires 'Class::Accessor::Fast';
 requires 'Encode';
 requires 'Exporter';
 requires 'File::Spec';
+requires 'Devel::CheckLib';
 use_ppport;
 cc_append_to_ccflags $config->{cflags};
 cc_append_to_inc $config->{include};
