@@ -1,6 +1,11 @@
 Changes
 =======
 
+0.20011 19 Dec 2010
+  - Make sure to include Devel::CheckLib in inc
+  - Fix typo (tomita)
+  - Fix author tests
+
 0.20010 28 Aug 2010
   - Remove left over Path::Class(::File) (nipotan)
   - Fix typo (nipotan)
