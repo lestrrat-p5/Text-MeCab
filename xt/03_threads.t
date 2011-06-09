@@ -20,7 +20,9 @@ for (1..5) {
     push @threads, threads->create(sub{
         note( "spawned thread : " . threads->tid() );
         foreach(my $n = $node; $n; $n = $n->next) {
-            note("node = " . encode_utf8( decode( &Text::MeCab::ENCODING, $n->surface) ) );
+            if ( defined $n->surface ) {
+                note("node = " . encode_utf8( decode( &Text::MeCab::ENCODING, $n->surface) ) );
+            }
         }
     });
 }
