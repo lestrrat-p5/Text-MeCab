@@ -1,6 +1,10 @@
 Changes
 =======
 
+0.20012 09 Jun 2011
+  - Make sure to chdir back to the original directory upon call to
+    Text::MeCab::Dict::rebuild() (nekokak)
+
 0.20011 19 Dec 2010
   - Make sure to include Devel::CheckLib in inc
   - Fix typo (tomita)
