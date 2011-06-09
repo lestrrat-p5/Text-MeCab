@@ -125,6 +125,7 @@ sub rebuild
                 die "Failed to execute '@$cmd': $!";
             }
         }
+        chdir $curdir;
     };
     if (my $e = $@) {
         chdir $curdir;
