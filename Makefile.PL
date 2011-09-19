@@ -30,7 +30,6 @@ test_requires 'Test::More', 0.84;
 test_requires 'Test::Requires';
 tests 't/*.t t/*/*.t';
 author_tests 'xt';
-auto_include;
 WriteAll;
 
 sub cc_append_to_libs_mine ($) {
