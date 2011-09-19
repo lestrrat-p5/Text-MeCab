@@ -1,6 +1,11 @@
 Changes
 =======
 
+0.20013 19 Sep 2011
+  - tokuhirom + http://kiyotakagoto.blog3.fc2.com/blog-entry-62.html
+    remove auto_include
+  - Use Module::Install::CheckLib
+
 0.20012 09 Jun 2011
   - Make sure to chdir back to the original directory upon call to
     Text::MeCab::Dict::rebuild() (nekokak)
