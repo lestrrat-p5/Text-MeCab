@@ -72,10 +72,7 @@ sub check_lib
     my $config = shift;
 
     if (! $RUNNING_IN_HELL) {
-        local @INC = @INC;
-        unshift @INC, 'inc';
-        require Devel::CheckLib;
-        Devel::CheckLib::check_lib_or_exit(
+        checklibs(
             lib  => 'mecab',
             LIBS => $config->{libs},
         );
