@@ -30,6 +30,8 @@ TextMeCab *
 TextMeCab_create(char **argv, unsigned int argc)
 {
     TextMeCab *mecab;
+    mecab_t *tagger;
+
 #if TEXT_MECAB_DEBUG
     {
         int i;
@@ -40,8 +42,15 @@ TextMeCab_create(char **argv, unsigned int argc)
         }
     }
 #endif
+    {
+        tagger = mecab_new(argc, argv);
+        if (! tagger) {
+            croak("Could not allocate mecab tagger");
+        }
+    }
+
     Newxz( mecab, 1, TextMeCab );
-    mecab->mecab = mecab_new(argc, argv);
+    mecab->mecab = tagger;
     mecab->argc  = argc;
     if (argc > 0) {
         unsigned int i;
