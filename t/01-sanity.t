@@ -1,6 +1,6 @@
 #!perl
 use strict;
-use Test::More (tests => 42);
+use Test::More;
 
 BEGIN
 {
@@ -30,4 +30,4 @@ foreach my $method (@methods) {
     can_ok("Text::MeCab::Node::Cloned", $method);
 }
 
-1;
+done_testing;
