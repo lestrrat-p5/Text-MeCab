@@ -44,8 +44,8 @@ TextMeCab_create(char **argv, unsigned int argc)
 #endif
     {
         tagger = mecab_new(argc, argv);
-        if (! tagger) {
-            croak("Could not allocate mecab tagger");
+        if (tagger == NULL) {
+            return NULL;
         }
     }
 
