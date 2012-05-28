@@ -70,10 +70,31 @@ MODULE = Text::MeCab    PACKAGE = Text::MeCab    PREFIX = TextMeCab_
 
 PROTOTYPES: DISABLE
 
-INCLUDE: const-xs.inc
-
 BOOT:
     TextMeCab_bootstrap();
+
+IV
+constant()
+    ALIAS:
+        MECAB_NOR_NODE = MECAB_NOR_NODE
+        MECAB_UNK_NODE = MECAB_UNK_NODE
+        MECAB_BOS_NODE = MECAB_BOS_NODE
+        MECAB_EOS_NODE = MECAB_EOS_NODE
+        MECAB_EON_NODE = MECAB_EON_NODE
+        MECAB_SYS_DIC  = MECAB_SYS_DIC
+        MECAB_USR_DIC  = MECAB_USR_DIC
+        MECAB_UNK_DIC  = MECAB_UNK_DIC
+        MECAB_ONE_BEST = MECAB_ONE_BEST
+        MECAB_NBEST    = MECAB_NBEST
+        MECAB_PARTIAL  = MECAB_PARTIAL
+        MECAB_MARGINAL_PROB = MECAB_MARGINAL_PROB
+        MECAB_ALTERNATIVE = MECAB_ALTERNATIVE
+        MECAB_ALL_MORPHS = MECAB_ALL_MORPHS
+        MECAB_ALLOCATE_SENTENCE = MECAB_ALLOCATE_SENTENCE
+    CODE:
+        RETVAL = ix;
+    OUTPUT:
+        RETVAL
 
 TextMeCab *
 TextMeCab__xs_create(class_sv, args = NULL)
@@ -88,6 +109,13 @@ TextMeCab_Node *
 TextMeCab_parse(mecab, string)
         TextMeCab *mecab;
         char *string;
+
+char *
+TextMeCab_version()
+    CODE:
+        RETVAL = mecab_version();
+    OUTPUT:
+        RETVAL
 
 MODULE = Text::MeCab    PACKAGE = Text::MeCab::Node    PREFIX = TextMeCab_Node_
 
