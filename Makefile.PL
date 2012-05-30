@@ -9,7 +9,6 @@ BEGIN {
     );
     foreach my $module (@required) {
         eval <<EOM;
-die;
             require $module;
             $module->import;
 EOM
