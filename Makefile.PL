@@ -1,4 +1,34 @@
-use inc::Module::Install;
+BEGIN {
+    my @missing;
+    my @required = qw(
+        inc::Module::Install
+        Module::Install::AuthorTests
+        Module::Install::CheckLib
+        Module::Install::Repository
+        Module::Install::XSUtil
+    );
+    foreach my $module (@required) {
+        eval <<EOM;
+die;
+            require $module;
+            $module->import;
+EOM
+        if ($@) {
+            push @missing, $module;
+        }
+    }
+
+    if (@missing) {
+        print "You don't seem to have some modules required for building this module.\nPlease install the following modules first:\n\n";
+        foreach my $module (@missing) {
+            $module =~ s/^inc:://;
+            print " + $module\n";
+        }
+        print "\nBail out\n";
+        exit 1;
+    }
+}
+
 sub cc_append_to_libs_mine ($);
 
 
