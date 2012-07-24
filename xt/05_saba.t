@@ -12,7 +12,7 @@ for (
     $node;
     $node = $node->next
 ) {
-    is decode_utf8($node->surface), shift @expect;
+    is decode(Text::MeCab::ENCODING, $node->surface), shift @expect;
 }
 
 done_testing;
