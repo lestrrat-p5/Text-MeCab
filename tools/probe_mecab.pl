@@ -4,6 +4,11 @@ use strict;
 use File::Spec;
 use ExtUtils::MakeMaker ();
 
+my $default_encoding = 'euc-jp';
+if ($default_encoding = (grep(/ENCODING=.*/, @ARGV))[0] ) {
+    $default_encoding =~ s/.*?=//;
+}
+
 my($version, $cflags, $libs, $include, $mecab_config);
 
 $cflags = '';
@@ -95,7 +100,6 @@ if ($libs) {
     print "No linker flags specified\n";
 }
 
-my $default_encoding = 'euc-jp';
 my $encoding = prompt(
     join(
         "\n",
