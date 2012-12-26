@@ -16,7 +16,7 @@ sub mychdir(@) {
 }
 
 sub cpanm (@) {
-    @_ = ("cpanm", "-v", "--notest", @_);
+    @_ = ("cpanm", "--notest", @_);
     goto &mysystem;
 }
 
