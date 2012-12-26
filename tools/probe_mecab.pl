@@ -14,6 +14,12 @@ if (! GetOptions(
     exit 1;
 }
 
+# XXX Silly hack
+local *STDIN = *STDIN;
+if ($ENV{TRAVIS_TEST}) {
+    close STDIN;
+}
+
 my($version, $cflags, $libs, $include, $mecab_config);
 
 $cflags = '';

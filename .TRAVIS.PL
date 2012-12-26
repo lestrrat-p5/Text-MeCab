@@ -49,6 +49,8 @@ sub main {
         Module::Install::Repository
         Module::Install::XSUtil
     ));
+
+    local $ENV{TRAVIS_TEST} = 1;
     mysystem("perl", "Makefile.PL", "--encoding=utf-8", "--mecab-config=$cwd/mecab/bin/mecab-config");
     cpanm(qw(--installdeps .));
 
