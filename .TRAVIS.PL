@@ -3,6 +3,7 @@ use strict;
 use Cwd ();
 
 sub mysystem(@) {
+    print STDERR "---> @_\n";
     system(@_) == 0 or die "Failed to execute @_: $!";
 }
 
@@ -53,8 +54,6 @@ sub main {
     local $ENV{TRAVIS_TEST} = 1;
     mysystem("perl", "Makefile.PL", "--encoding=utf-8", "--mecab-config=$cwd/mecab/bin/mecab-config");
     cpanm(qw(--installdeps .));
-
-    mysystem("make", "test");
 }
 
 main unless caller();
