@@ -36,7 +36,6 @@ my $RUNNING_IN_HELL = $^O eq 'MSWin32';
 my $config = run_probes();
 check_lib($config);
 define_symbols($config);
-extract_constants($config);
 
 name 'Text-MeCab';
 all_from 'lib/Text/MeCab.pm';
@@ -105,55 +104,6 @@ sub check_lib
             lib  => 'mecab',
             LIBS => $config->{libs},
         );
-    }
-}
-
-sub extract_constants
-{
-    my $config = shift;
-    my $mecab_h = File::Spec->catfile($config->{include}, 'mecab.h');
-
-    print "reading $mecab_h to find all constants\n";
-    open my $fh, "<", $mecab_h or die "Can't open $mecab_h";
-
-    my %CONSTANTS;
-    while (<$fh>) {
-        if (/^#define\s+([\w_]+)\s+([\w_+])\s*$/) {
-            $CONSTANTS{$1} = $2;
-        } elsif (/^#define\s+([\w_]+)\s+\(([\w_+])\)\s*$/) {
-            $CONSTANTS{$1} = $2;
-        }
-    }
-
-    open my $const_fh, '>', "xs/const-xs.inc" or die "Can't open xs/const-xs.inc for writing: $!";
-    print $const_fh
-        join("\n",
-            "IV",
-            "constant()",
-            "    ALIAS:",
-            (map { "        " . join(" = ", $_, $_) } keys %CONSTANTS),
-            "    CODE:",
-            "        RETVAL = ix;",
-            "    OUTPUT:",
-            "        RETVAL"
-        )
-    ;
-    close($const_fh);
-    close($fh);
-
-    # XXX This should probably be refactored elsewhere
-    if (open(my $tmpl, '<', "MeCab.src")) {
-        my $pm;
-        if (! open($pm, '>', File::Spec->catfile('lib', 'Text', 'MeCab.pm'))) {
-            die "Could not open pm file: $!";
-        }
-        while ( <$tmpl> ) {
-            s/__TEXT_MECAB_CONSTANTS__/join(' ', sort keys %CONSTANTS)/gex;
-            s/__TEXT_MECAB_CONSTANTS_POD__/join("\n\n", map { "=head2 $_" } sort keys %CONSTANTS)/gex;
-            print $pm $_;
-        }
-        close $tmpl;
-        close $pm;
     }
 }
 
