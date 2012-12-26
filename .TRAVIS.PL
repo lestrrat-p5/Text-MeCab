@@ -28,14 +28,14 @@ sub main {
     mysystem("curl", "-LO", "http://downloads.sourceforge.net/project/mecab/mecab-ipadic/$ipadic_version/mecab-ipadic-$ipadic_version.tar.gz");
 
     my $cwd = Cwd::abs_path();
-    mysystem("tar", "-xvzf", "mecab-$mecab_version");
+    mysystem("tar", "-xvzf", "mecab-$mecab_version.tar.gz");
     {
         my $guard = mychdir("mecab-$mecab_version");
         mysystem("./configure", "--prefix=$cwd/mecab");
         mysystem("make", "install");
     }
 
-    mysystem("tar", "-xvzf", "mecab-ipadic-$ipadic_version");
+    mysystem("tar", "-xvzf", "mecab-ipadic-$ipadic_version.tar.gz");
     {
         my $guard = mychdir("mecab-ipadic-$ipadic_version");
         mysystem("./configure", "--with-charset=utf8", "--with-mecab-config=$cwd/mecab/bin/mecab-config");
