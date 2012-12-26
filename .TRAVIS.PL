@@ -24,7 +24,7 @@ sub main {
     # download latest mecab and mecab-ipadic
     my $mecab_version = "0.994";
     my $ipadic_version = "2.7.0-20070801";
-    mysystem("curl", "-LO", "http://mecab.googlecode.com/files/mecab-$mecab_version.994.tar.gz");
+    mysystem("curl", "-LO", "http://mecab.googlecode.com/files/mecab-$mecab_version.tar.gz");
     mysystem("curl", "-LO", "http://downloads.sourceforge.net/project/mecab/mecab-ipadic/$ipadic_version/mecab-ipadic-$ipadic_version.tar.gz");
 
     my $cwd = Cwd::abs_path();
