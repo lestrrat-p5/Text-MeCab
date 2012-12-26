@@ -247,6 +247,10 @@ t
 
 Parses the given text via mecab, and returns a Text::MeCab::Node object.
 
+=head2 $version = Text::MeCab::version()
+
+The version number, as returned by libmecab's mecab_version();
+
 =head2 CONSTANTS
 
 =over 4
@@ -260,7 +264,7 @@ compile time.
 
 =item MECAB_VERSION
 
-The version number from libmecab's mecab_version()
+The version number, same as Text::MeCab::version()
 
 =item MECAB_TARGET_VERSION
 
