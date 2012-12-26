@@ -49,9 +49,9 @@ sub main {
         Module::Install::Repository
         Module::Install::XSUtil
     ));
+    mysystem("perl", "Makefile.PL", "--encoding=utf-8", "--mecab-config=$cwd/mecab/bin/mecab-config");
     cpanm(qw(--installdeps .));
 
-    mysystem("perl", "Makefile.PL", "--encoding=utf-8", "--mecab-config=$cwd/mecab/bin/mecab-config");
     mysystem("make", "test");
 }
 
