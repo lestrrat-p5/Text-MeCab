@@ -6,7 +6,11 @@ use Getopt::Long;
 use ExtUtils::MakeMaker ();
 
 my $default_encoding = 'euc-jp';
-if (! GetOptions("encoding=s" => \$default_encoding)) {
+my $default_config;
+if (! GetOptions(
+    "encoding=s" => \$default_encoding,
+    "mecab-config=s" => \$default_config,
+)) {
     exit 1;
 }
 
@@ -48,12 +52,13 @@ if ($^O eq 'MSWin32') {
     $include = ExtUtils::MakeMaker::prompt("Directory containing mecab.h (e.g. c:\\path\\to\\include)? [] ");
 } else {
     # try probing in places where we expect it to be
-    my $default_config;
-    foreach my $path (qw(/usr/bin /usr/local/bin /opt/local/bin)) {
-        my $tmp = File::Spec->catfile($path, 'mecab-config');
-        if (-f $tmp && -x _) {
-            $default_config = $tmp;
-            last;
+    if (! defined $default_config || ! -x $default_config) {
+        foreach my $path (qw(/usr/bin /usr/local/bin /opt/local/bin)) {
+            my $tmp = File::Spec->catfile($path, 'mecab-config');
+            if (-f $tmp && -x _) {
+                $default_config = $tmp;
+                last;
+            }
         }
     }
 
