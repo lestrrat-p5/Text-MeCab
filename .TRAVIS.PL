@@ -22,6 +22,14 @@ sub cpanm (@) {
 }
 
 sub main {
+    if ($ARGV[0] eq 'install') {
+        run_install();
+    } else {
+        run_test();
+    }
+}
+
+sub run_install {
     # download latest mecab and mecab-ipadic
     my $mecab_version = "0.994";
     my $ipadic_version = "2.7.0-20070801";
@@ -54,6 +62,9 @@ sub main {
     local $ENV{TRAVIS_TEST} = 1;
     mysystem("perl", "Makefile.PL", "--encoding=utf-8", "--mecab-config=$cwd/mecab/bin/mecab-config");
     cpanm(qw(--installdeps .));
+}
+
+sub run_test {
     mysystem("make", "test");
 }
 
