@@ -1,6 +1,18 @@
 Changes
 =======
 
+0.20014 26 Dec 2012
+  - You can now specify the default encpding to be used from command line
+    via --encoding flag (https://github.com/lestrrat/Text-MeCab/pull/6):
+
+       perl Makefile.PL --encoding=utf-8
+
+  - Fix author tests (https://github.com/lestrrat/Text-MeCab/pull/5)
+  - Fix various Module::Install related stuff
+  - Stop generating constants dynamically
+  - Better error checking in XS
+  - Lots of hackery to run tests on Travis-CI
+
 0.20013 19 Sep 2011
   - tokuhirom + http://kiyotakagoto.blog3.fc2.com/blog-entry-62.html
     remove auto_include
