@@ -5,7 +5,9 @@ use File::Spec;
 use Getopt::Long;
 use ExtUtils::MakeMaker ();
 
-my $default_encoding = 'euc-jp';
+# May specify encoding from ENV
+my $default_encoding = $ENV{PERL_TEXT_MECAB_ENCODING} || 'euc-jp';
+
 my $default_config;
 if (! GetOptions(
     "encoding=s" => \$default_encoding,
