@@ -113,7 +113,24 @@ making the perl interface through a tied hash is just... weird.
 
 So Text::MeCab gives you a more natural, Perl-ish way to access libmecab!
 
-WARNING: Version 0.20000 has only been tested against libmecab 0.96.
+WARNING: Version 0.20015 has only been tested against libmecab 0.99.
+
+=head1 INSTALLATION
+
+You need to have mecab already installed. You also need a dictionary,
+such as ipadic.
+
+Because we want to work with UTF-8 internally, we need to know what your
+dictionary's charset is. You need to tell our probe script (which gets invoked by Makefile.PL) interactively asks you this. If you want to specify it from elsewhere, you need to specify via environment variable:
+
+    PERL_TEXT_MECAB_ENCODING=utf-8 perl Makefile.PL
+    # or, say, you're using cpanm
+    PERL_TEXT_MECAB_ENCODING=utf-8 cpanm Text::MeCab
+
+If you want to build Text::MeCab with debugging info, specify it on the
+comamnd line to Makefile.PL:
+
+    perl Makefile.PL --debugging
 
 =head1 Text::MeCab AND FORMATS
 
