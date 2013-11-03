@@ -67,7 +67,7 @@ TextMeCab_create(char **argv, unsigned int argc)
 TextMeCab *
 TextMeCab_create_from_av(AV *av)
 {
-    char **argv;
+    char **argv = NULL;
     unsigned int argc;
     TextMeCab *mecab;
 
