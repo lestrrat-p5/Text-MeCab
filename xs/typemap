@@ -7,6 +7,7 @@ INPUT
 T_MECAB
     {
         MAGIC *mg;
+        $var = NULL;
         mg = TextMeCab_mg_find(aTHX_ SvRV($arg), &TextMeCab_vtbl);
         if (mg) {
             $var = (TextMeCab *) mg->mg_ptr;

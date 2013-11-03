@@ -113,7 +113,7 @@ TextMeCab_parse(mecab, string)
 char *
 TextMeCab_version()
     CODE:
-        RETVAL = mecab_version();
+        RETVAL = (char *) mecab_version();
     OUTPUT:
         RETVAL
 

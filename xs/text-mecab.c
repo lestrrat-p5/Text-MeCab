@@ -34,7 +34,7 @@ TextMeCab_create(char **argv, unsigned int argc)
 
 #if TEXT_MECAB_DEBUG
     {
-        int i;
+        unsigned int i;
 
         PerlIO_printf(PerlIO_stderr(), "TextMeCab_new called\n");
         for(i = 0; i < argc; i++) {
