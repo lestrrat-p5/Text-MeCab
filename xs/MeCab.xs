@@ -1,4 +1,5 @@
 #include "text-mecab.h"
+#include "config-const.h"
 
 static int
 TextMeCab_mg_free(pTHX_ SV *const sv, MAGIC* const mg)
@@ -64,6 +65,59 @@ static MGVTBL TextMeCab_vtbl = { /* for identity */
     NULL,  /* local */
 };
 
+static void
+register_constants()
+{
+    HV *stash = gv_stashpv("Text::MeCab", TRUE);
+
+#if HAVE_MECAB_NOR_NODE
+    newCONSTSUB(stash, "MECAB_NOR_NODE", newSViv(MECAB_NOR_NODE));
+#endif
+#if HAVE_MECAB_UNK_NODE
+    newCONSTSUB(stash, "MECAB_UNK_NODE", newSViv(MECAB_UNK_NODE));
+#endif
+#if HAVE_MECAB_BOS_NODE
+    newCONSTSUB(stash, "MECAB_BOS_NODE", newSViv(MECAB_BOS_NODE));
+#endif
+#if HAVE_MECAB_EOS_NODE
+    newCONSTSUB(stash, "MECAB_EOS_NODE", newSViv(MECAB_EOS_NODE));
+#endif
+#if HAVE_MECAB_EON_NODE
+    newCONSTSUB(stash, "MECAB_EON_NODE", newSViv(MECAB_EON_NODE));
+#endif
+
+#if HAVE_MECAB_SYS_DIC
+    newCONSTSUB(stash, "MECAB_SYS_DIC", newSViv(MECAB_SYS_DIC));
+#endif
+#if HAVE_MECAB_USR_DIC
+    newCONSTSUB(stash, "MECAB_USR_DIC", newSViv(MECAB_USR_DIC));
+#endif
+#if HAVE_MECAB_UNK_DIC
+    newCONSTSUB(stash, "MECAB_UNK_DIC", newSViv(MECAB_UNK_DIC));
+#endif
+
+#if HAVE_MECAB_ONE_BEST
+    newCONSTSUB(stash, "MECAB_ONE_BEST",      newSViv(MECAB_ONE_BEST));
+#endif
+#if HAVE_MECAB_NBEST
+    newCONSTSUB(stash, "MECAB_NBEST",         newSViv(MECAB_NBEST));
+#endif
+#if HAVE_MECAB_PARTIAL
+    newCONSTSUB(stash, "MECAB_PARTIAL",       newSViv(MECAB_PARTIAL));
+#endif
+#if HAVE_MECAB_MARGINAL_PROB
+    newCONSTSUB(stash, "MECAB_MARGINAL_PROB", newSViv(MECAB_MARGINAL_PROB));
+#endif
+#if HAVE_MECAB_ALTERNATIVE
+    newCONSTSUB(stash, "MECAB_ALTERNATIVE",   newSViv(MECAB_ALTERNATIVE));
+#endif
+#if HAVE_MECAB_ALL_MORPHS
+    newCONSTSUB(stash, "MECAB_ALL_MORPHS",    newSViv(MECAB_ALL_MORPHS));
+#endif
+#if HAVE_MECAB_ALLOCATE_SENTENCE
+    newCONSTSUB(stash, "MECAB_ALLOCATE_SENTENCE", newSViv(MECAB_ALLOCATE_SENTENCE));
+#endif
+}
 
 
 MODULE = Text::MeCab    PACKAGE = Text::MeCab    PREFIX = TextMeCab_
@@ -72,29 +126,7 @@ PROTOTYPES: DISABLE
 
 BOOT:
     TextMeCab_bootstrap();
-
-IV
-constant()
-    ALIAS:
-        MECAB_NOR_NODE = MECAB_NOR_NODE
-        MECAB_UNK_NODE = MECAB_UNK_NODE
-        MECAB_BOS_NODE = MECAB_BOS_NODE
-        MECAB_EOS_NODE = MECAB_EOS_NODE
-        MECAB_EON_NODE = MECAB_EON_NODE
-        MECAB_SYS_DIC  = MECAB_SYS_DIC
-        MECAB_USR_DIC  = MECAB_USR_DIC
-        MECAB_UNK_DIC  = MECAB_UNK_DIC
-        MECAB_ONE_BEST = MECAB_ONE_BEST
-        MECAB_NBEST    = MECAB_NBEST
-        MECAB_PARTIAL  = MECAB_PARTIAL
-        MECAB_MARGINAL_PROB = MECAB_MARGINAL_PROB
-        MECAB_ALTERNATIVE = MECAB_ALTERNATIVE
-        MECAB_ALL_MORPHS = MECAB_ALL_MORPHS
-        MECAB_ALLOCATE_SENTENCE = MECAB_ALLOCATE_SENTENCE
-    CODE:
-        RETVAL = ix;
-    OUTPUT:
-        RETVAL
+    register_constants();
 
 TextMeCab *
 TextMeCab__xs_create(class_sv, args = NULL)
