@@ -1,4 +1,5 @@
 #include "text-mecab.h"
+#include "config-const.h"
 
 static int
 TextMeCab_mg_free(pTHX_ SV *const sv, MAGIC* const mg)
@@ -69,51 +70,51 @@ register_constants()
 {
     HV *stash = gv_stashpv("Text::MeCab", TRUE);
 
-#ifdef MECAB_NOR_NODE
+#if HAVE_MECAB_NOR_NODE
     newCONSTSUB(stash, "MECAB_NOR_NODE", newSViv(MECAB_NOR_NODE));
 #endif
-#ifdef MECAB_UNK_NODE
+#if HAVE_MECAB_UNK_NODE
     newCONSTSUB(stash, "MECAB_UNK_NODE", newSViv(MECAB_UNK_NODE));
 #endif
-#ifdef MECAB_BOS_NODE
+#if HAVE_MECAB_BOS_NODE
     newCONSTSUB(stash, "MECAB_BOS_NODE", newSViv(MECAB_BOS_NODE));
 #endif
-#ifdef MECAB_EOS_NODE
+#if HAVE_MECAB_EOS_NODE
     newCONSTSUB(stash, "MECAB_EOS_NODE", newSViv(MECAB_EOS_NODE));
 #endif
-#ifdef MECAB_EON_NODE
+#if HAVE_MECAB_EON_NODE
     newCONSTSUB(stash, "MECAB_EON_NODE", newSViv(MECAB_EON_NODE));
 #endif
 
-#ifdef MECAB_SYS_DIC
+#if HAVE_MECAB_SYS_DIC
     newCONSTSUB(stash, "MECAB_SYS_DIC", newSViv(MECAB_SYS_DIC));
 #endif
-#ifdef MECAB_USR_DIC
+#if HAVE_MECAB_USR_DIC
     newCONSTSUB(stash, "MECAB_USR_DIC", newSViv(MECAB_USR_DIC));
 #endif
-#ifdef MECAB_UNK_DIC
+#if HAVE_MECAB_UNK_DIC
     newCONSTSUB(stash, "MECAB_UNK_DIC", newSViv(MECAB_UNK_DIC));
 #endif
 
-#ifdef MECAB_ONE_BEST
+#if HAVE_MECAB_ONE_BEST
     newCONSTSUB(stash, "MECAB_ONE_BEST",      newSViv(MECAB_ONE_BEST));
 #endif
-#ifdef MECAB_NBEST
+#if HAVE_MECAB_NBEST
     newCONSTSUB(stash, "MECAB_NBEST",         newSViv(MECAB_NBEST));
 #endif
-#ifdef MECAB_PARTIAL
+#if HAVE_MECAB_PARTIAL
     newCONSTSUB(stash, "MECAB_PARTIAL",       newSViv(MECAB_PARTIAL));
 #endif
-#ifdef MECAB_MARGINAL_PROB
+#if HAVE_MECAB_MARGINAL_PROB
     newCONSTSUB(stash, "MECAB_MARGINAL_PROB", newSViv(MECAB_MARGINAL_PROB));
 #endif
-#ifdef MECAB_ALTERNATIVE
+#if HAVE_MECAB_ALTERNATIVE
     newCONSTSUB(stash, "MECAB_ALTERNATIVE",   newSViv(MECAB_ALTERNATIVE));
 #endif
-#ifdef MECAB_ALL_MORPHS
+#if HAVE_MECAB_ALL_MORPHS
     newCONSTSUB(stash, "MECAB_ALL_MORPHS",    newSViv(MECAB_ALL_MORPHS));
 #endif
-#ifdef MECAB_ALLOCATE_SENTENCE
+#if HAVE_MECAB_ALLOCATE_SENTENCE
     newCONSTSUB(stash, "MECAB_ALLOCATE_SENTENCE", newSViv(MECAB_ALLOCATE_SENTENCE));
 #endif
 }

@@ -37,6 +37,10 @@ my $config = run_probes();
 check_lib($config);
 define_symbols($config);
 
+do 'tools/genfiles.pl';
+die if $@;
+MeCabBuild::write_files($config->{version});
+
 name 'Text-MeCab';
 all_from 'lib/Text/MeCab.pm';
 
