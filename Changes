@@ -1,6 +1,17 @@
 Changes
 =======
 
+0.20015 18 Dec 2013
+  - Change how constants are handled so that things work with libmecab < 0.99
+    (https://github.com/lestrrat/Text-MeCab/pull/9)
+  - Allow specifying mecab encoding from environment variable
+    PERL_MECAB_TEXT_ENCODING, so that you can do
+    (https://github.com/lestrrat/Text-MeCab/pull/7)
+ 
+       PERL_MECAB_TEXT_ENCODING=utf-8 carton install
+
+  - Silence some warnings
+
 0.20014 26 Dec 2012
   - You can now specify the default encpding to be used from command line
     via --encoding flag (https://github.com/lestrrat/Text-MeCab/pull/6):
