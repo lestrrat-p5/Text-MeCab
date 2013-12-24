@@ -1,6 +1,9 @@
 Changes
 =======
 
+0.20016 24 Dec 2013
+  - Update MANIFEST
+
 0.20015 18 Dec 2013
   - Change how constants are handled so that things work with libmecab < 0.99
     (https://github.com/lestrrat/Text-MeCab/pull/9)
