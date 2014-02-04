@@ -133,6 +133,85 @@ sub rebuild
     }
 }
 
+sub make_user_dic
+{
+    my $self = shift;
+    
+    my $user_dict = Text::MeCab::Dict::UserDict->new(
+        libexecdir      => $self->libexecdir,
+        input_encoding  => $self->input_encoding,
+        output_encoding => $self->output_encoding,
+        @_
+    ); 
+     
+    my $file = File::Spec->catfile( $user_dict->user_dic_dir, $user_dict->user_csv_file );
+    $self->write($file);
+    
+    $user_dict->build;
+}
+
+package Text::MeCab::Dict::UserDict;
+use strict;
+use warnings;
+use base qw(Class::Accessor::Fast);
+
+__PACKAGE__->mk_accessors($_) for qw(dic_dir user_dic_dir user_dic_file user_csv_file libexecdir input_encoding output_encoding);
+
+sub new
+{
+    my $class = shift;
+    my %args  = @_;
+    
+    my @add_params = qw(dic_dir user_dic_dir user_dic_file user_csv_file);
+    
+    for my $param (@add_params) {
+        if (!$args{$param}) {
+            die "You must specify ".$param;
+        }
+    }
+
+    unless (-d $args{user_dic_dir}) {
+        die "In advance you must make user_dic_dir.And you might add user_dic_dir to dicrc  or mecabrc";
+    }
+    
+    $class->SUPER::new({ 
+        @_
+    });
+}
+
+sub build
+{
+    my $self = shift;
+    
+    my $dict_index = File::Spec->catfile($self->libexecdir, 'mecab-dict-index');
+
+    my $cmd = (
+        [
+            $dict_index, 
+            '-f', $self->input_encoding,
+            '-t', $self->output_encoding, 
+            '-d', $self->dic_dir, 
+            '-u', $self->user_dic_file,
+            $self->user_csv_file
+        ]
+    );
+    
+    my $user_dic_dir = $self->user_dic_dir;
+
+    my $curdir = Cwd::cwd();
+    eval {
+        chdir $user_dic_dir;
+
+        if (system(@$cmd) != 0) {
+            die "Failed to execute '@$cmd': $!";
+        }
+    };
+    if (my $e = $@) {
+        chdir $curdir;
+        die $e;
+    }
+}
+
 package Text::MeCab::Dict::Entry;
 use strict;
 use warnings;
